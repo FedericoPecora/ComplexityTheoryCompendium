@@ -1,0 +1,49 @@
+\begin{picture}(0,0)%
+\includegraphics{fig/classes-all.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(20914,20912)(10874,-8856)
+\put(29431,-7666){\makebox(0,0)[lb]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}Space}%
+}}}}
+\put(29431,-6991){\makebox(0,0)[lb]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Time}%
+}}}}
+\put(21331,-6091){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}\ComplexityFont{L}}%
+}}}}
+\put(24121,-3796){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP}%
+}}}}
+\put(21331,-4381){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}\NL}%
+}}}}
+\put(18496,-3796){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\coNP}%
+}}}}
+\put(21331,-2401){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\P}%
+}}}}
+\put(21331,-1051){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\DP}%
+}}}}
+\put(21331,2234){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}$\PSPACE = \NPSPACE$}%
+}}}}
+\put(21331,3494){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}\PSPACE-complete}%
+}}}}
+\put(21331,4844){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\EXP}%
+}}}}
+\put(21331,5969){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\EXP-complete}%
+}}}}
+\put(21331,7319){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NEXP}%
+}}}}
+\put(21331,8444){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NEXP-complete}%
+}}}}
+\put(21331,9884){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}$\EXPSPACE = \ComplexityFont{NEXPSPACE}$}%
+}}}}
+\put(21331,10964){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}\EXPSPACE-complete}%
+}}}}
+\put(24166,-196){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP-complete}%
+}}}}
+\put(18586,-196){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\coNP-complete}%
+}}}}
+\end{picture}%

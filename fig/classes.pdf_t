@@ -1,0 +1,51 @@
+\begin{picture}(0,0)%
+\includegraphics{fig/classes.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(9618,6756)(2048,-6659)
+\put(6616,-871){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\dots{}}%
+}}}}
+\put(4186,-4696){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}EULERIAN-CIRCUIT}%
+}}}}
+\put(4186,-5011){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}CONNECTED}%
+}}}}
+\put(4186,-5326){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Regular languages}%
+}}}}
+\put(4186,-5671){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\dots{}}%
+}}}}
+\put(6616,-556){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}CHESS}%
+}}}}
+\put(8759,-1838){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}EUCLIDIAN-CIRCUIT}%
+}}}}
+\put(8759,-1523){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}TSP-DECIDE}%
+}}}}
+\put(8759,-2153){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}BIN-PACKING}%
+}}}}
+\put(8759,-2468){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\dots{}}%
+}}}}
+\put(3271,-3361){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{.56,0,0}$A$}%
+}}}}
+\put(5161,-1606){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{.56,0,0}$B$}%
+}}}}
+\put(5131,-6286){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{.56,0,0}$D$}%
+}}}}
+\put(5806,-2941){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{.56,0,0}{\em What does this}}%
+}}}}
+\put(5806,-3211){\makebox(0,0)[lb]{\smash{{\SetFigFont{17}{20.4}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{.56,0,0}{\em gap look like?}}%
+}}}}
+\put(5175,-511){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP-hard}%
+}}}}
+\put(5175,-2041){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP-complete}%
+}}}}
+\put(5175,-3121){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP}%
+}}}}
+\put(5175,-4021){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\P}%
+}}}}
+\end{picture}%

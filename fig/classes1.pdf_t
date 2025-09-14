@@ -1,0 +1,37 @@
+\begin{picture}(0,0)%
+\includegraphics{fig/classes1.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(10265,10351)(2014,-10254)
+\put(5141,-3121){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP}%
+}}}}
+\put(5141,-511){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP-hard}%
+}}}}
+\put(5141,-2041){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP-complete}%
+}}}}
+\put(5141,-5101){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\P}%
+}}}}
+\put(5141,-8386){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\coNP-complete}%
+}}}}
+\put(5131,-7261){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\coNP}%
+}}}}
+\put(3376,-5146){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\DP}%
+}}}}
+\put(5131,-9736){\makebox(0,0)[b]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\coNP-hard}%
+}}}}
+\put(8911,-5236){\makebox(0,0)[lb]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}the diagram}%
+}}}}
+\put(8911,-5641){\makebox(0,0)[lb]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}``folds upwards'',}%
+}}}}
+\put(8911,-6046){\makebox(0,0)[lb]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}but the gap remains}%
+}}}}
+\put(8911,-4831){\makebox(0,0)[lb]{\smash{{\SetFigFont{20}{24.0}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}If $\NP = \coNP$,}%
+}}}}
+\end{picture}%

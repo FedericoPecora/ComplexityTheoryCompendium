@@ -1,0 +1,16 @@
+
+\begin{tikzpicture}[>=latex,line join=bevel,]
+%%
+\node (1) at (73.603bp,22.0bp) [draw,circle, double] {$1$};
+  \node (2) at (22.0bp,93.025bp) [draw,circle, double] {$2$};
+  \node (3) at (22.0bp,38.767bp) [draw,circle] {$3$};
+  \node (4) at (105.5bp,65.896bp) [draw,circle] {$4$};
+  \node (5) at (73.603bp,109.79bp) [draw,circle, double] {$5$};
+  \draw [very thick] (1) ..controls (52.818bp,50.607bp) and (42.991bp,64.134bp)  .. (2);
+  \draw [very thick] (1) ..controls (48.149bp,30.27bp) and (43.486bp,31.786bp)  .. (3);
+  \draw [] (1) ..controls (89.334bp,43.652bp) and (92.216bp,47.619bp)  .. (4);
+  \draw [] (2) ..controls (22.0bp,66.262bp) and (22.0bp,61.358bp)  .. (3);
+  \draw [] (2) ..controls (46.114bp,100.86bp) and (49.337bp,101.91bp)  .. (5);
+  \draw [very thick] (4) ..controls (92.096bp,84.339bp) and (89.289bp,88.202bp)  .. (5);
+%
+\end{tikzpicture}

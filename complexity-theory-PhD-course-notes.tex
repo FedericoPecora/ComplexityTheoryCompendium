@@ -1,0 +1,3241 @@
+% rubber: setlist arguments --shell-escape
+
+\documentclass[a4paper]{report}
+\usepackage{graphicx}
+\usepackage{savesym}
+\usepackage{url}
+\usepackage{clrscode3e}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{lipsum}
+
+\usepackage{booktabs}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
+
+%For bibliography
+\usepackage[natbib=true,style=authoryear]{biblatex}
+\addbibresource{references.bib}
+\usepackage[utf8]{inputenc}
+
+\usepackage{sudoku}
+
+%For indexing problems in different classes
+\usepackage{imakeidx}
+\makeindex
+
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,inner=2.5cm,outer=3.5cm]{geometry}
+%\usepackage[a4paper,top=3cm,bottom=3cm,inner=1.5cm,outer=3.4cm,asymmetric]{geometry}
+%\usepackage[a4paper,top=3cm,bottom=3cm,inner=1.5cm,outer=3.4cm,twoside]{geometry}
+%\usepackage[margin=1in]{geometry}
+
+%\usepackage{natbib}
+\usepackage{fontawesome}
+%\usepackage{marginnote}
+%\reversemarginpar
+
+\savesymbol{func}
+\usepackage{complexity}
+\restoresymbol{CMP}{func}
+
+\usepackage{dot2texi}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage{pgfplots}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools}
+%\theoremstyle{plain}
+\newtheorem{theo}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{coro}{Corollary}
+
+\newcommand{\LHS}[1]{\hspace{1.5em}\mathllap{#1}}
+\newcommand{\LHSS}[2]{\hspace{#1}\mathllap{#2}}
+\newcommand{\bookref}[3]{\marginpar{\faBook{}~#1\\Chapter #2\\Section #3}}
+%\newcommand{\bookref}[3]{\marginnote{\faBook{}~#1\\Chapter #2\\Section #3}[\parskip]}
+%\newcommand{\bookref}[3]{\vspace{-0.5cm}{\footnotesize\faBook{}~#1 Chapter #2, Section #3}\\[\parskip]}
+
+\theoremstyle{definition}
+\newtheorem{defin}{Definition}
+\newtheorem{reduction}{Reduction}
+\newtheorem{prop}{Property}
+\newtheorem{remark}{Remark}
+\newtheorem{ex}{Example}
+\newtheorem{scen}{Scenario}
+\newtheorem{claim}{Claim}
+
+\newcommand{\mbm}[1]{\mbox{\boldmath $#1$}}
+%\newcommand{\mbms}[1]{\mbox{\boldmath $#1$}}
+\newcommand{\mbms}[1]{\mbox{\scriptsize\boldmath $#1$}}
+\newcommand{\mbmsf}[1]{\mbox{{\fontsize{16}{18}\boldmath $#1$}}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\reach}{reach}
+\DeclareMathOperator*{\treq}{timereq}
+\DeclareMathOperator*{\sreq}{spacereq}
+%\newcommand{\twodots}{\mathinner {\ldotp \ldotp}}
+%\newcommand{\mysup}[1]{\textstyle\sup_{#1}}
+%\newcommand{\myinf}[1]{\textstyle\inf_{#1}}
+\newcommand{\mysup}[1]{\textstyle\sup_{\mathmakebox[\width-0.1em][l]{#1\!}}}
+\newcommand{\myinf}[1]{\textstyle\inf_{\mathmakebox[\width-0.1em][l]{#1\!}}}
+%\newcommand{\mysup}[1]{\sup_{\raisebox{1pt}{$#1$}}}
+%\newcommand{\mysup}[1]{\sup_{#1}}
+%\newcommand{\myinf}[1]{\textstyle\inf_{\mathmakebox[1.2em][l]{#1}}}
+\newcommand*\dif{\mathop{}\!\mathrm{d}}
+
+% For \dots{} in bibliograhy!
+\newcommand*{\mywadots}{\dots}
+
+% \usepackage[T1]{fontenc}
+% \usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+% \renewcommand*\oldstylenums[1]{{\AlegreyaOsF #1}}
+
+
+% \usepackage{epigrafica}
+% \usepackage[LGR,OT1]{fontenc}
+
+% \usepackage{libertine}
+% \renewcommand*\familydefault{\sfdefault}  %% Only if the base font of the document is to be sans serif
+% \usepackage[T1]{fontenc}
+
+\usepackage[T1]{fontenc}
+%\usepackage{inputenc} % Required for inputting international characters 
+%\usepackage{gentium}
+
+\usepackage{fourier}
+
+\usepackage{microtype} % Improve justification
+
+\renewcommand\thesection{\arabic{part}.\arabic{section}}
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother
+
+\setlength{\parskip}{1.2ex}
+\setlength{\parindent}{0pt}
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, topsep=0pt, parsep=2pt}
+%\usepackage{parskip}
+
+\usepackage{myul}
+
+% For factorial
+% Calculation, see
+% https://en.wikipedia.org/wiki/Gamma_function#Approximations
+\makeatletter
+\pgfmath@def{lngamma}{A}{0.159154943092}% 1/(2*pi)
+\pgfmath@def{lngamma}{B}{0.0833333333333}% 1/12
+\pgfmath@def{lngamma}{C}{0.00277777777778}% 1/360
+\pgfmath@def{lngamma}{D}{0.000793650793651}% 1/1260
+\pgfmathdeclarefunction{lngamma}{1}{%
+  \pgfmathmultiply{#1}{#1}%
+  \let\pgfmath@lngamma@tmp\pgfmathresult
+  % tmp = x^2
+  \pgfmathdivide\pgfmath@lngamma@D\pgfmath@lngamma@tmp
+  % result = 1/(1260 x^2)
+  \pgfmathsubtract\pgfmathresult\pgfmath@lngamma@C
+  % result = -1/360 + 1/(1260 x^2)
+  \pgfmathdivide\pgfmathresult\pgfmath@lngamma@tmp
+  % result = -1/(360 x^2) + 1/(1260 x^4)
+  \pgfmathadd\pgfmathresult\pgfmath@lngamma@B
+  % result = 1/12 - 1/(360 x^2) + 1/(1260 x^4)
+  \pgfmathdivide\pgfmathresult{#1}%
+  \let\pgfmath@lngamma@sum\pgfmathresult
+  % sum = 1/(12 x) - 1/(360 x^3) + 1/(1260 x^5)
+  \pgfmathmultiply{#1}\pgfmath@lngamma@A
+  % result = x/(2 pi)
+  \pgfmathln\pgfmathresult
+  % result = ln(x/(2 pi))
+  \pgfmathmultiply\pgfmathresult{.5}%
+  % result = (1/2) ln(x/(2 pi))
+  \pgfmathadd\pgfmathresult{#1}%
+  \let\pgfmath@lngamma@tmp\pgfmathresult
+  % tmp = x + (1/2) ln(x/(2 pi))
+  \pgfmathln{#1}%
+  % result = ln(x)
+  \pgfmathmultiply\pgfmathresult{#1}%
+  % result = x ln(x)
+  \pgfmathsubtract\pgfmathresult\pgfmath@lngamma@tmp
+  % result = x ln(x) - x - (1/2) ln(x/(2 pi))
+  \pgfmathadd\pgfmathresult\pgfmath@lngamma@sum
+  % result = x ln(x) - x - (1/2) ln(x/(2 pi))
+  %          + 1/(12 x) - 1/(360 x^3) + 1/(1260 x^5)
+}
+\makeatother
+
+\pgfmathdeclarefunction{facreal}{1}{%
+  \pgfmathadd{#1}{1}%
+  \pgfmathlngamma\pgfmathresult
+  \pgfmathexp\pgfmathresult
+}
+
+\pgfmathdeclarefunction{nbinom}{2}{%
+  \pgfmathparse{%
+    facreal((x+#1-1)/(facreal(x)*facreal(#1-1)))*(1-#2)^#1*(#2^x)%
+  }%
+}
+
+\definecolor{grad1}{HTML}{14E500}
+\definecolor{grad2}{HTML}{50DF00}
+\definecolor{grad3}{HTML}{89DA00}
+\definecolor{grad4}{HTML}{BFD400}
+\definecolor{grad5}{HTML}{CFAC00}
+\definecolor{grad6}{HTML}{C97100}
+\definecolor{grad7}{HTML}{C43900}
+\definecolor{grad8}{HTML}{BF0400}
+
+\begin{document}
+
+\title{\large{Leture notes for graduate course in Computer Science 50DT041 on}\\\vspace{0.1cm}\huge{{\bf Computational Complexity Theory}}}
+\author{Federico Pecora\vspace{0.3cm}\\{\em Center for Applied Autonomous Sensor Systems}\\{\em School of Science and Technology, \"Orebro University}\vspace{0.3cm}\\\url{federico.pecora@oru.se}}
+
+\date{}
+
+\maketitle
+
+\pagenumbering{roman} 
+\section*{Preface}
+%\addcontentsline{toc}{section}{\protect\numberline{}Preface}%
+This report summarizes the lectures given in the graduate course on Computational Complexity Theory (50DT041) given at \"Orebro University. This is an introductory graduate course aimed at PhD students whose background is not necessarily in Computer Science. The aim is to provide literacy in computational complexity and the ability to understand the complexity of new problems that may arise in one's own research. The course assumes as prerequisites topics typically covered in discrete math courses offered in Computer Science/Engineering departments. Also, it is assumed that students have taken the course ``Topics in Contemporary Computer Science'' (50DT056), which introduces models of computation, Turing machines, and the notion of decidability.
+
+Chapter 2 of the book by Cormen et al.~``Introduction to Algorithms'' (MIT Press, 2014) is a good reference for Part I on Algorithm Complexity. The remainder of the course is based primarily on Chapters 17, 27, 28 and 29 of the book by Elaine Rich ``Automata, Computability and Complexity'' (Prentice Hall, 2008). Pointers to relevant sections in these books (referred to as CLRS and ER, respectively) are given in margin notes throughout this document. These lecture notes also include several additional topics which are not covered or treated only superficially in the two books, namely, the relation between decision and search problems, a more detailed discussion of the class \coNP{}, and the complexity of problems with succinct representations.
+\nocite{Cormen:2009:IAT:1614191,rich2008automata}
+
+These notes are intended to summarize and support the discussions carried out during class. They do not substitute reading the relevant sections of the books and attending classes. Note also that the material presented here is a constant work in progress.
+
+For comments, errors, and omissions, please contact me at \url{federico.pecora@oru.se}. Special thanks go to the students of the fall 2018 edition of this course for their many comments and suggestions.
+
+\vspace{0.3cm}
+\begin{flushright}
+  Federico Pecora\\
+  July 2019\\
+  \"Orebro, Sweden
+\end{flushright}
+
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+
+\part{Algorithm Complexity}
+
+\section{An Initial Example}
+Let's consider the sorting problem:
+
+\myul{Input:} a sequence $A = \langle a_1, \dots{}, a_n \rangle$ of numbers.
+
+\myul{Output:} a permulation $\pi(A) = \langle a'_1, \dots{}, a'_n\rangle$ such that $a'_{i-1} \leq a'_{i}$ for all $i \in [2 \twodots n]$.
+
+Possible questions we may be interested in:
+\begin{itemize}
+\item Does there exist an algorithm to solve this problem?
+\item What computational resources do I need to run this algorithm?
+\item How long will it take to solve this problem?
+\item What features of the input determine how long it will take to solve this problem?
+\item Are there any ``better'' algorithms than the one I found? What is ``better''?
+\item How hard is this problem in general?
+\end{itemize}
+
+This course
+\begin{itemize}
+\item \myul{provides the mathematical tools to answer these questions for any given problem};
+\item \myul{reveals how all these questions are related}.
+\end{itemize}
+
+
+\section{An Algorithm for Sorting}
+\bookref{CLRS}{2}{2.1}
+One of the most intuitive algorithms for sorting is Insertion Sort.
+%
+\begin{codebox}
+\Procname{$\proc{Insertion-Sort}(A)$}
+\li \For $j \gets 2$ \To $n$ \Do
+\li $\text{key} \gets A[j]$
+\li $i \gets j-1$
+\li \While $i > 0$ and $A[i] > \text{key}$ \Do
+\li $A[i+1] \gets A[i]$
+\li $i \gets i-1$
+\End
+\li $A[i+1] \gets \text{key}$
+\End
+\end{codebox}
+
+How efficient is this algorithm?
+
+In order to answer this question, we first need to assume a model of computation (roughly speaking, the ``computational framework'' on which we can assume to ``interpret'' the pseudo-code above).
+
+\section{Random Access Machines}
+\bookref{CLRS}{2}{2.2}
+A \myul{Random Access Machine (RAM)} is a model of computation with the following properties:
+\begin{itemize}
+\item Instructions are executed one after another, there is no concurrency
+\item Instructions are similar to those commonly found on real computers, that is
+\begin{itemize}
+\item \myul{Arithemtic:} add, subtract, multiply, divide, modulo, floor, ceiling, shift-left, shift-right, etc.
+\item \myul{Data movement:} load, store, copy
+\item \myul{Control:} conditional/unconditional branch, subroutine calls, return, for and while loops
+\end{itemize}
+\item Any of the above instructions takes constant time
+\item We can represent words of at most $c \log n$ bits, where
+\begin{itemize}
+\item $n$ is the size of the input
+\item $c \geq 1$ because we want to be able to hold the value of $n$ and address its individual elements
+\item $c$ is constant because we cannot allow the word size to grow arbitrarily
+\end{itemize}
+\end{itemize}
+
+\section{Time Requirement of Insertion Sort}
+\bookref{CLRS}{2}{2.2}
+Analysis of $\proc{Insertion-Sort}(A)$, where $A = \langle a_1,\dots{}, a_n\rangle$:
+
+\begin{itemize}
+\item Line 1 is executed $n$ times (the condition is true $n-1$ times, plus one time when it is false and the loop ends)
+\item Lines 2--3 happen $n-1$ times
+\item The number of times the condition in line 4 is true depends on the input $A$
+\begin{itemize} 
+\item Let the number of times line 4 is executed for a given $j$ be $t_j$
+\item So overall, line 4 is executed $\sum_{j = 2}^n t_j$ times
+\item Note this method of ``hiding the hard part of the analysis under the carpet''
+\end{itemize}
+\item Similarly, lines 5--6 are executed $\sum_{j = 2}^n (t_j-1)$ times
+\item Line 7 is executed $n-1$ times
+\end{itemize}
+
+So, in general, the time requirement for this procedure is
+\begin{align*}
+\treq(\proc{Insertion-Sort}(A)) & = c_1n+c_2(n-1)+c_3(n-1)+c_4\sum_{j=2}^{n}t_j\\& + c_5\sum_{j=2}^{n}(t_j-1)+c_6\sum_{j=2}^{n}(t_j-1)+c_7(n-1)
+\end{align*}
+
+Let's also assume that each operation takes not only constant time, but actually ``one'' time unit, that is:
+\begin{align*}
+\treq(\proc{Insertion-Sort}(A)) = 4n-3+\sum_{j=2}^{n}t_j+2\sum_{j=2}^{n}(t_j-1)
+\end{align*}
+
+
+What is the overall temporal requirement of $\proc{Insertion-Sort}(A)$ in the \myul{best case}?
+\begin{itemize}
+\item In the best case, $A$ is already sorted
+\item This is the best case \myul{for this algorithm} (but not necessarily for others, see Quicksort for example) because
+\begin{itemize}
+\item If $A$ is sorted, then the number of times the condition in line 4 is true is minimized
+\item That is, $t_j = 1$ for all $j \in [2 \twodots n]$
+\end{itemize}
+\item Plugging in we get
+\end{itemize}
+\begin{align*}
+\treq(\proc{Insertion-Sort}(A)) = 5n-4
+\end{align*}
+
+What is the overall temporal requirement of $\proc{Insertion-Sort}(A)$ in the \myul{worst case}?
+\begin{itemize}
+\item In the worst case, $A$ is sorted in descending order
+\item This is the worst case \myul{for this algorithm} (but not necessarily for others, see Quicksort for example) because
+\begin{itemize}
+\item If $A$ is in descending order, then the number of times line 4 is true is maximized
+\item That is, $t_j = j$ for all $j \in [2 \twodots n]$
+\end{itemize}
+\item Observing that
+\end{itemize}
+\begin{align*}
+\sum_{j=1}^{n} j &= [\text{arithmetic series\footnotemark}] = \frac{n(n+1)}{2}\\
+\sum_{j=2}^{n} j &= \frac{n(n+1)}{2}-1\\
+\sum_{j=2}^{n} (j-1) &= [k = j-1] = \sum_{k=1}^{n-1} k = \frac{n(n-1)}{2}
+\end{align*}
+\footnotetext{Recall Gauss' solution for computing the sum of the first $N$ numbers~\citep{hayes2006computing,von1856gauss}.}
+\begin{itemize}
+\item Plugging in we get
+\end{itemize}
+\begin{align*}
+\treq(\proc{Insertion-Sort}(A)) = \frac{3}{2}n^2+3n-4
+\end{align*}
+
+So, we get \myul{quadratic} time requirement in the \myul{worst case}, \myul{linear} in the \myul{best case}.
+
+There are ``better'' algorithms, although the notion of ``better'' really depends on what you expect as input.
+
+For example,
+\begin{itemize}
+\item Merge Sort runs in time proportional to $n\log n$ in all cases (best, worst, average)
+\item Quicksort runs in time proportional to $n^2$ in the worst case, but $n \log n$ in the average and best cases
+\end{itemize}
+
+\section{Asymptotic Notation}
+\bookref{CLRS}{3}{3.1}
+But how do we represent a statement like ``Insertion Sort runs in time proportional to $n^2$'' mathematically?
+
+To be precise, we use the following definitions.
+
+\section{Upper Bounds}
+\bookref{CLRS}{3}{3.1}
+Aka ``big-O'' notation.
+\begin{align*}
+O(g(n)) = \{ f(n) : \exists c > 0, n_0 > 0 \;\text{such that}\; 0 \leq f(n) \leq cg(n) \;\text{for all}\; n \geq n_0\}
+\end{align*}
+
+$g(n)$ is an \myul{asymptotic upper bound} for $f(n)$.
+
+Note that $O(g(n))$ is the \myul{set of all functions} that have this property.
+
+Example: $2n^2 \in O(n^3)$, with $c = 1$ and $n_0 = 2$.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[xmin=0,xmax=3,ymin=0,ymax=16, samples=100, xlabel=$n$, legend style={at={(0.1,0.8)},anchor=west}, extra x ticks={2}, extra y ticks={8}, extra tick style={grid=major}, xtick=\empty, ytick=\empty]
+  \addplot[blue,  thick] (x,2*x*x);
+  \addplot[red, thick] (x,x*x*x);
+%  \legend{$f(n) = 2n^2$,$g(n) = n^3$}
+  \legend{$\begin{aligned}[t]f(n) &= 2n^2\\[-2pt]g(n) &= n^3\end{aligned}$,\strut}
+%  \addplot[nodes near coords, mark=*, only marks, point meta=explicit symbolic] coordinates { (2,8) [$(n_0 = 2, f = g = 8)$] };
+  \addplot[mark=*, only marks] coordinates { (2,8) };
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Other examples:
+\begin{align*}
+n^2 &\in O(n^2)\\
+n^2+n &\in O(n^2)\\
+n^2+1000n &\in O(n^2)\\
+1000n^2+1000n &\in O(n^2)\\
+n &\in O(n^2)\\
+n/1000 &\in O(n^2)\\
+n^{1.9999} &\in O(n^2)\\
+n^2/\log{\log{\log n}} &\in O(n^2)
+\end{align*}
+
+\section{Lower Bounds}
+\bookref{CLRS}{3}{3.1}
+Aka ``big-Omega'' notation.
+\begin{align*}
+\Omega(g(n)) = \{ f(n) : \exists c > 0, n_0 > 0 \;\text{such that}\; 0 \leq cg(n) \leq f(n) \;\text{for all}\; n \geq n_0\}
+\end{align*}
+
+$g(n)$ is an \myul{asymptotic lower bound} for $f(n)$.
+
+Note that $\Omega(g(n))$ is the \myul{set of all functions} that have this property.
+
+Example: $\sqrt{n} \in \Omega(\log n)$, with $c = 1$ and $n_0 = 16$.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=0:20,samples=400, ymin=-1,ymax=5, xlabel=$n$, legend style={at={(0.5,0.2)},anchor=west}, extra x ticks={0,16}, extra y ticks={0,4}, extra tick style={grid=major}, xtick=\empty, ytick=\empty]
+  \addplot[blue, thick] (\x,{sqrt(\x)});
+  \addplot[red,  thick] (\x,{log2(\x)});
+%  \legend{$f(n) = \sqrt{n}$,$g(n) = \log_2 n$}
+  \legend{$\begin{aligned}[t]f(n) &= \sqrt{n}\\[-2pt]g(n) &= \log_2 n\end{aligned}$,\strut}
+%  \addplot[nodes near coords, mark=*, only marks, point meta=explicit symbolic] coordinates { (16,4) [$(n_0 = 16, f = g = 4)$] };
+  \addplot[mark=*, only marks] coordinates { (16,4) };
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Other examples:
+\begin{align*}
+n^2 &\in \Omega(n^2)\\
+n^2+n &\in \Omega(n^2)\\
+n^2-n &\in \Omega(n^2)\\
+n^2+1000n &\in \Omega(n^2)\\
+1000n^2+1000n &\in \Omega(n^2)\\
+1000n^2-1000n &\in \Omega(n^2)\\
+n^3 &\in \Omega(n^2)\\
+n^{2.00001} &\in \Omega(n^2)\\
+n^2\log{\log{\log n}} &\in \Omega(n^2)\\
+2^{2^n} &\in \Omega(n^2)
+\end{align*}
+
+\section{Tight Bounds}
+\bookref{CLRS}{3}{3.1}
+Aka ``big-Theta'' notation.
+\begin{align*}
+\Theta(g(n)) = \{ f(n) : &\;\exists c_1 > 0, c_2 > 0, n_0 > 0 \;\text{such that}\\ &\; 0 \leq c_1g(n) \leq f(n) \leq c_2g(n) \;\text{for all}\; n \geq n_0\}
+\end{align*}
+
+$g(n)$ is an \myul{asymptotic tight bound} for $f(n)$.
+
+Note that $\Theta(g(n))$ is the \myul{set of all functions} that have this property.
+
+\begin{theo}
+$f(n) \in \Theta(g(n))$ if and only if $f(n) \in O(g(n))$ and $f(n) \in \Omega(g(n))$.
+\end{theo}
+
+Example: $\frac{1}{2}n^2 - 2n \in \Theta(n^2)$, with $c_1 = \frac{1}{4}, c_2 = \frac{1}{2}$ and $n_0 = 8$.
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[domain=-2:20,samples=100, ymin=-2,ymax=40, xlabel=$n$, legend style={at={(0.56,0.83)},anchor=east}, extra x ticks={0,8}, extra y ticks={0,16}, extra tick style={grid=major}, xtick=\empty, ytick=\empty]
+  \addplot[blue, thick] (x,x*x*0.5-2*x);
+  \addplot[red!50!black,  thick] (x,0.25*x*x);
+  \addplot[red!90!black,  thick] (x,0.5*x*x);
+%  \legend{$f(n) = \frac{1}{2}n^2 - 2n$,$c_1g(n) = \frac{1}{4}x^2$,$c_2g(n) = \frac{1}{2}x^2$}
+  \legend{$\LHSS{2.5em}{f(n)} = \frac{1}{2}n^2 - 2n$,$\LHS{c_1g(n)} = \frac{1}{4}n^2$,$\LHS{c_2g(n)} = \frac{1}{2}n^2$}
+%  \legend{$\begin{aligned}[t]f(n) &= \frac{1}{2}n^2 - 2n\\[-2pt]c_1g(n) &= \frac{1}{4}x^2\\[-2pt]c_2g(n) &= \frac{1}{2}x^2\end{aligned}$,\strut,\strut}
+%  \addplot[nodes near coords, mark=*, only marks, point meta=explicit symbolic] coordinates { (8,16) [$(n_0 = 8, f = g = 16)$] };
+  \addplot[mark=*, only marks] coordinates { (8,16) };
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+\section{Strict Upper and Lower Bounds}
+\bookref{CLRS}{3}{3.1}
+Similarly, we can define strict bounds (with alternative definitions in terms of limits):
+%
+\begin{align*}
+o(g(n)) &= \{ f(n) : \exists c > 0, n_0 > 0 \;\text{such that}\; 0 \leq f(n) < cg(n) \;\text{for all}\; n \geq n_0\}\\
+        &= \{ f(n) : \lim_{n\to \infty}\frac{f(n)}{g(n)} = 0 \}
+\end{align*}
+%
+\begin{align*}
+\omega(g(n)) &= \{ f(n) : \exists c > 0, n_0 > 0 \;\text{such that}\; 0 \leq cg(n) < f(n) \;\text{for all}\; n \geq n_0\}\\
+             &= \{ f(n) : \lim_{n\to \infty}\frac{f(n)}{g(n)} = \infty \}
+\end{align*}
+%
+Note that $n^2 \not\in o(n^2)$ and $n^2 \not\in \omega(n^2)$.
+
+\section{Comparison of Functions}
+\bookref{CLRS}{3}{3.1}
+Relational properties:
+\begin{itemize}
+\item \myul{Transitivity:} $f(n) = \Theta(g(n))$ and $g(n) = \Theta(h(n))$ implies $f(n) = \Theta(h(n))$
+\begin{itemize}
+\item Same holds for $O, \Omega, o, \omega$
+\end{itemize}
+\item \myul{Reflexivity:} $f(n) = \Theta(f(n))$
+\begin{itemize}
+\item Same holds for $O, \Omega$
+\end{itemize}
+\item \myul{Symmetry:} $f(n) = \Theta(g(n))$ if and only if $g(n) = \Theta(f(n))$
+\item \myul{Transpose symmetry:} $f(n) = O(g(n))$ if and only if $g(n) = \Omega(f(n))$
+\begin{itemize}
+\item Same holds for $o, \omega$
+\end{itemize}
+\end{itemize}
+
+
+\section{Comparing Growth Rates}
+
+Note a few important points about order of growth of common functions:
+
+\begin{itemize}
+\item $n^k \in o(n^m)$ for all $k < m$
+\item $\log_a n \in \Theta(\log_b n)$ for all $a > 1, b > 1$, because\\
+  \begin{align*}
+    \lim_{n \to \infty}\frac{\log_b n}{\log_a n} = \lim_{n \to \infty}\frac{\log_b a \log_a n}{\log_a n} = \log_b a
+  \end{align*}
+\item $\log n \in o(n^k)$ for all $k > 0$, because\\
+  \begin{align*}
+    \lim_{n \to \infty}\frac{\log n}{n^k} = [\text{see above}] = \lim_{n \to \infty}\frac{\ln n}{n^k} = [\text{L'H\^opital's rule}] = \lim_{n \to \infty}\frac{n^{-1}}{kn^{k-1}} = \lim_{n \to \infty}\frac{1}{kn^{k}} = 0
+  \end{align*}
+\item $n^k \in o(a^n)$ for all $a > 1, k > 0$, because\\
+  \begin{align*}
+    \lim_{n \to \infty}\frac{n^k}{a^n} = [\text{L'H\^opital's rule $k$ times}] = \lim_{n \to \infty}\frac{k!}{a^n (\ln a)^k} = 0
+  \end{align*}
+\item $a^n \in o(b^n)$ for all $0 \leq a < b$, because\\
+  \begin{align*}
+    \lim_{n \to \infty}\frac{a^n}{b^n} = \lim_{n \to \infty}\left(\frac{a}{b}\right)^n = 0
+  \end{align*}  
+\item $a^n \in o(n!)$ for all $a > 0$, because\\
+  \begin{align*}
+    \lim_{n \to \infty}\frac{a^n}{n!} = \lim_{n \to \infty}\frac{\log(a^n)}{\log(n!)} = \lim_{n \to \infty}\frac{n \log a}{\sum_{i=1}^{n}\log i} = 0
+  \end{align*}  
+\end{itemize}
+
+
+\section{Note on Exponential Functions}
+What is the difference between $O(2^n)$ and $2^{O(n)}$?
+
+\begin{align*}
+2^n \in O(2^{n}) \;&\text{and}\; 2^n \in 2^{O(n)}\\
+2^{n^2} \not\in O(2^{n}) \;&\text{and}\; 2^{n^2} \not\in 2^{O(n)}\\
+2^{\frac{n}{2}} \in O(2^{n}) \;&\text{and}\; 2^{\frac{n}{2}} \in 2^{O(n)}\\
+3^{n} \not\in O(2^{n}) \;&\text{but}\; 3^{n} \in 2^{O(n)}
+\end{align*}
+
+In fact, $f(n) \in 2^{O(n)}$ iff
+%
+\begin{align*}
+  \log(f(n)) \in O(n),
+\end{align*}
+%
+which means that
+%
+\begin{align*}
+  \exists c > 0, n_0 > 0 \;\text{such that}\; 0 \leq \log(f(n)) \leq cn \;\text{for all}\; n \geq n_0,
+\end{align*}
+%
+hence
+%
+\begin{align*}
+  \exists c > 0, n_0 > 0 \;\text{such that}\; 0 \leq f(n) \leq 2^{cn} = (2^c)^n \;\text{for all}\; n \geq n_0,
+\end{align*}
+%
+and hence that $f(n) \in O(b^n)$ for some $b > 0$ (similarly for $\Omega$, $\omega$, $\Theta$, and $o$).
+
+\section{Common Functions in Complexity Analysis}
+
+\begin{tabular}{L{0.25\textwidth}L{0.3\textwidth}L{0.365\textwidth}}
+  \toprule
+  {\em Name} & {\em Asymptotic notation} & {\em Examples} \\
+
+  \midrule
+
+  logarithmic & $O(\log n)$ & $\log n$, $\log (n^3)$  \\
+
+  polylogarithmic & $\poly(\log n)$ & $\log n$, $(\log n)^2$ \\
+
+  linear & $O(n)$ & $n$, $3n + 2$ \\
+
+  quasi-linear & $n \, \poly(\log n)$ & $n \log n$ (linearithmic), $n (\log n)^3$ \\
+                 
+  quadratic & $O(n^2)$ & $n^2$, $100 n^2 + 2n + 1$ \\
+
+  cubic & $O(n^3)$ & $n^3$, $0.3 n^3$ \\
+                
+  polynomial & $2^{O(\log n)} = n^{O(1)} = \poly(n)$ & $n^3 + n$, $n^{1000}$ \\
+
+  quasi-polynomial & $2^{\poly(\log n)}$ & $n^{(\log \log n)}$, $n^{(\log n)}$ \\
+
+  sub-exponential & $2^{o(n)}$ & $2^{n^\frac{1}{5}}$, $2^{\sqrt{n}}$ \\
+  
+  exponential (linear exp.)& $2^{O(n)}$ & $1.2^n$, $42^n$ \\
+
+  exponential & $2^{\poly(n)}$ & $2^n$, $2^{n^3}$ \\
+
+  factorial & $O(n!)$ & $n!$ \\
+
+  double exponential & $2^{2^{\poly(n)}}$ & $2^{2^{n}}$ \\
+  \bottomrule
+\end{tabular}
+
+\begin{center}
+
+% \begin{tikzpicture}
+% \begin{axis}
+% [xmin=0, xmax=20, ymin=0, ymax=2000, samples=100, xlabel=$n$, legend style={at={(0.1,0.8)},anchor=west}]
+% \addplot[grad1, very thick, domain=0:20] (\x,{log2(\x)})
+% node [pos=1.0, above left] {$\log n$};
+% \addplot[grad2, very thick, domain=0:20] (\x,{\x*log2(\x)})
+% node [pos=1.0, above left] {$n \log n$};
+% \addplot[grad3, very thick, domain=0:20] (\x,\x)
+% node [pos=1.0, above left] {$n$};
+% \addplot[grad4, very thick, domain=0:20] (\x,\x*\x)
+% node [pos=1.0, above left] {$n^2$};
+% \addplot[grad5, very thick, domain=0:15] (\x,\x*\x*\x)
+% node [pos=0.51, above right] {$n^3$};
+% \addplot[grad6, very thick, domain=0:11] (\x,{pow(2,\x)})
+% node [pos=0.835, above left] {$2^n$};
+% \addplot[grad7, very thick, domain=0:7] (\x,{facreal(\x)})
+% node [pos=0.34, above left] {$n!$};
+% \end{axis}
+% \end{tikzpicture}
+
+\begin{tikzpicture}
+\begin{semilogyaxis}
+[xmin=1, xmax=20, ymin=1, ymax=2000, samples=100, xlabel=$n$]
+\addplot[grad1, very thick, domain=0:20] (\x,{log2(\x)})
+node [pos=1.0, above left] {$\log n$};
+\addplot[grad2, very thick, domain=0:20] (\x,{\x*log2(\x)})
+node [pos=1.0, above left] {$n \log n$};
+\addplot[grad3, very thick, domain=0:20] (\x,\x)
+node [pos=1.0, above left] {$n$};
+\addplot[grad4, very thick, domain=0:20] (\x,\x*\x)
+node [pos=1.0, above left] {$n^2$};
+\addplot[grad5, very thick, domain=0:15] (\x,\x*\x*\x)
+node [pos=0.85, below right] {$n^3$};
+\addplot[grad6, very thick, domain=0:11] (\x,{pow(2,\x)})
+node [pos=0.9, above left] {$2^n$};
+\addplot[grad7, very thick, domain=0:7] (\x,{facreal(\x)})
+node [pos=0.83, above left] {$n!$};
+\addplot[grad8, very thick, domain=0:4] (\x,{pow(2,{pow(2,\x)})})
+node [pos=0.62, above left] {$2^{2^n}$};
+\end{semilogyaxis}
+\end{tikzpicture}
+
+\end{center}
+
+% So, $f(n) \in O(2^{O(n)})$ means that $f(n) \in O(b^n)$ for some $b > 0$---that is, we can say ``exponential'' \myul{without specifying the base $b$}. %In other words, \myul{$f(n)$ is an exponential function}.
+
+%Similarly, $f(n) \in O(2^{O(\log n)})$ means that $f(n) \in O(n^k)$ for some $k$---that is, we can say ``polynomial'' \myul{without specifying the degree $k$}.
+
+
+\section{Asymptotic Analysis of Recursive Functions}
+Let's implement the function $f(x,n) = x^n$. Formulated recursively,
+\begin{align*}
+f(x,n) = 
+\begin{cases*}
+1 & if $n = 0$\\
+x \cdot f(x,n-1) & otherwise
+\end{cases*}
+\end{align*}
+
+\begin{codebox}
+\Procname{$\proc{Exp}(x,n)$}
+\li \If $n = 0$ 
+\li \Then \Return{$1$}
+\End
+\li \Return{$x \cdot \proc{Exp}(x,n-1)$}
+\end{codebox}
+
+
+Analysis of $\proc{Exp}(x,n)$:
+\begin{itemize}
+\item Line 1 is executed $n+1$ times
+\item Line 2 is executed once
+\item Line 3 is executed $n$ times
+\end{itemize}
+
+Hence, $\treq(\proc{Exp}(x,n)) \in \Theta(n)$.
+
+We can do better, thanks to a mathematician friend who tells us that:
+%
+\begin{align*}
+f(x,n) = 
+\begin{cases*}
+1 & if $n = 0$\\
+(x^2)^{\frac{n}{2}} & if $n$ is even\\
+x (x^2)^{\frac{(n-1)}{2}} & if $n$ is odd\\
+\end{cases*}
+\end{align*}
+%
+Let's implement it:
+
+\begin{codebox}
+\Procname{$\proc{ExpFast}(x,n)$}
+\li \If $n = 0$ 
+\li \Then \Return{$1$}
+\End
+\li \If $n \bmod 2 = 0$
+\li \Then \Return{$\proc{ExpFast}(x \cdot x,n/2)$}
+\End
+\li \Return{$x \cdot \proc{ExpFast}(x \cdot x,(n-1)/2)$}
+\end{codebox}
+
+Analysis of $\proc{ExpFast}(x,n)$:
+\begin{itemize}
+\item Line 1 is executed as many times as there are recursive calls
+\item Line 2 is executed once
+\item One among line 3 or line 4 gets executed at each recursive call
+\item How many recursive calls are there goint to be?
+\item There will be $k$ recursive calls, where
+\begin{itemize}
+\item $k$ is the number of times you can divide $n$ by 2
+\item That is, $2^k = n$, hence, $k = \log_2 n$
+\end{itemize}
+\end{itemize}
+
+Hence, $\treq(\proc{ExpFast}(x,n)) \in \Theta(\log n)$, which is much better than linear!
+
+\section{Best/Worst Case and Asymptotic Notation}
+So we have seen that $\treq(\proc{ExpFast}(x,n)) \in \Theta(\log n)$---it's $\Theta$ because we can provide a single function that serves as an upper and lower bound.
+
+Recall that $\treq(\proc{Insertion-Sort}(A)) \in \Theta(n^2)$ in the \myul{worst case}, and $\treq(\proc{Insertion-Sort}(A)) \in \Theta(n)$ in the \myul{best case}---again, because we can provide a function that serves as both lower and upper bound, \myul{in both cases}.
+
+Note that $\treq(\proc{Alg}) \in \Theta(f(n))$ \myul{does not mean} that $\proc{Alg}$ has the same time requirement in all cases.
+
+We are often interested in upper bounds, so we will most often use the ``big-O'' notation.
+
+\section{Time Requirement}
+\bookref{ER}{27}{27.4}
+The time requirement of a program ``running'' on a RAM is the total number of operators that are executed.
+
+Henceforth,
+\begin{itemize}
+\item TM = \myul{deterministic} Turing machine
+\item NDTM = \myul{non-deterministic} Turing machine
+\end{itemize}
+
+How do we characterize the running time of a Turing Machine?
+
+If $M$ is a \myul{TM that halts on all inputs}, then
+%
+\begin{align*}
+\treq(M) & = f(n) =\\ &\text{max.~number of steps made on any input of length} \;n
+\end{align*}
+%
+If $M$ is a \myul{NDTM all of whose computational paths halt on all inputs}, then
+%
+\begin{align*}
+\treq(M) & = f(n) =\\ &\text{max.~number of steps made along}\\ & \text{any path executed on any input of length} \;n
+\end{align*}
+
+So, what's the relation between the Turing Machine model of computation and the RAM model of computation?
+
+\section{Equivalence Between Turing Machines and RAMs}
+\bookref{ER}{17}{17.4}
+We know that adding multiple tapes does not increase the power of TMs.
+
+Neither does non-determinism.
+
+What about adding features that would make a TM more like a real computer?
+
+\begin{itemize}
+\item Unbounded number of memory cells addressed by integers
+\item Instruction set of a RAM
+\item Program counter, address register, accumulator, special-purpose registers, input/output file
+\end{itemize}
+
+Can a TM simulate such a computer?
+
+\begin{theo}
+A RAM combined with a stored program can be simulated by a TM $M$. If the RAM program requires $n$ steps to perform some operation, then $\treq(M) \in O(n^6)$.
+\begin{proof}
+Constructs a 7-tape TM that simulates the computer, see~\citep{rich2008automata} if interested.
+\end{proof}
+\end{theo}
+
+\section{Seeing Problems as Languages}
+\bookref{ER}{17}{17.2}
+The SAT problem is the problem of verifying whether a formula in Boolean logic, e.g.,
+%
+\begin{align*}
+w &= (P \vee Q) \wedge (\neg P \vee Q),
+%w_1 &= (P \vee Q) \wedge (\neg P \vee Q),
+%w_2 &= (P \vee Q) \wedge (\neg P \vee \neg Q),
+\end{align*}
+%
+has an assignment of Boolean values to variables that makes the formula true.
+
+This can be seen as the problem of deciding whether a Boolean formula is a member of the language of \myul{all true Boolean formulae}:
+%
+\begin{align*}
+\text{SAT} = \{ w : w \;\text{is a true Boolean formula} \}
+\end{align*}
+%
+
+We will often ``convert'' optimization problems to decision problems as well.
+%
+\bookref{ER}{27}{27.3.2}
+
+For example, for the problem of
+%
+\begin{quote}
+\myul{Find the shortest path from vertex $u$ to vertex $v$ in a weighted undirected graph $G$}
+\end{quote}
+%
+the corresponding decision problem could be defined as:
+%
+\begin{align*}
+\text{SHORTEST-PATH} = \{ (G, u, v, k) : & \;G \; \text{is an undirected graph,} \;u \;\text{and} \;v \;\text{are vertices in} \; G,\\ & \; k \geq 0 \; \text{and there exists a simple path from} \; u \; \text{to} \; v \\ & \; \text{of length} \leq k \}
+\end{align*}
+
+\part{The Language Class \P}
+
+\section{The Language Class \P}
+\bookref{ER}{28}{28.1}
+$L \in \P$ iff $\exists$ some deterministic Turing machine $M$ that decides $L$, and $\treq(M) \in O(n^k)$ for some constant $k$.
+
+We'll say that $L$ is \myul{tractable} iff it is in \P.
+
+
+\section{Closure Under Complement}
+\bookref{ER}{28}{28.1.1}
+\begin{theo}
+The class \P{} is closed under complement.
+\begin{proof}
+If $M$ accepts $L$ in polynomial time, swap accepting- and non-accepting states to accept $\neg L$ in polynomial time.
+\end{proof}
+\end{theo}
+
+But what is the complement exactly?
+
+\section{Defining Complement}
+\bookref{ER}{28}{28.1.1}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{CONNECTED} =& \{G = (V,E) : G \; \text{is an undirected graph and} \; G \; \text{is connected}\}\\
+\text{NOTCONNECTED} =& \{G = (V,E) : G \; \text{is an undirected graph and} \; G \; \text{is not connected}\}\\
+\neg\text{CONNECTED} =& \,\text{NOTCONNECTED} \;\cup \; \{\text{strings that are not syntactically legal}\\ & \;\text{descriptions of undirected graphs}\}
+\end{align*}
+%
+We know that $\text{CONNECTED} \in \P$ (see later).
+
+Hence, $\neg\text{CONNECTED} \in \P$ by the closure theorem.  What about NOTCONNECTED?
+
+If we can check for legal syntax in polynomial time, then we can consider the universe of strings whose syntax is legal.
+
+Then we can conclude that $\text{NOTCONNECTED}$ belongs to \P{} if $\neg\text{CONNECTED}$ does.
+
+\section{Languages That Are in \P}
+\bookref{ER}{28}{28.1.2}
+\begin{itemize}
+\item Every \myul{regular language}\footnote{Recall: Regular language = language recognized by Deterministic Finite State Machine (DFSM) / regular expressions.}
+\item Every \myul{context-free language}\footnote{Recall: CF language = production rules are $1:1$, $1:n$, or $1:0$. Compare with context-sensitive grammars (not in \P), where left-hand side can be surrounded by context of terminal and non-terminal symbols.} since there exist context-free parsing algorithms that run in $O(n^3)$ time
+\item Others, like $A^nB^nC^n$
+\end{itemize}
+
+\section{Proving That a Language is in \P}
+Since a RAM can be simulated by a TM in polynomial time, we can:
+\begin{itemize}
+\item Describe a TM that decides $L$ in polynomial time, or
+\item State an algorithm for a conventional computer (hence, deterministic) that decides $L$ in polynomial time
+\end{itemize}
+
+\section{Example: Regular Languages}
+\bookref{ER}{28}{28.1.3}
+\begin{theo}
+Every regular language is in \P.
+\begin{proof}
+Every regular language can be decided in linear time, as, if $L$ is regular, there exists some Deterministic Finite State Machine (DFSM) $M$ that decides it.  Construct a deterministic TM $M'$ that simulates $M$, moving its read/write head one square to the right at each step.  When $M'$ reads a terminal character, it halts. If it is in an accepting state, it accepts; otherwise it rejects. On any input of length $n$, $M'$ will execute $n + 2$ steps. Hence, $\treq(M') \in O(n)$.
+\end{proof}
+\end{theo}
+
+\section{Example: Context-Free Languages}
+\bookref{ER}{28}{28.1.3}
+\begin{theo}
+Every context-free language is in \P.
+\begin{proof}
+The Cocke-Kasami-Younger (CKY) algorithm can parse any context-free language in time that is $O(n^3)$ if we count operations on a conventional computer.  That algorithm can be simulated on a standard, one-tape Turing machine in $O(n^{18})$ steps. Hence, every context-free language can be decided in $O(n^{18})$ time.
+\end{proof}
+\end{theo}
+
+\section{Graph Languages}
+\begin{center}
+%\begin{dot2tex}[mathmode,circo]
+%\input{fig/graph1.dot}
+%\end{dot2tex}
+\input{fig/graph1.tex}
+\end{center}
+
+We can represent a graph $G=(V,E)$ as:
+
+\begin{itemize}
+\item Number of vertices followed by list of vertex-pairs (edges)
+\begin{itemize}
+\item in the example: 101/1/11/11/10/10/100/100/101/11/101
+\item requires string of length $O(|V|^2 \log_2 |V|)$, since there are at most $|V|^2$ edges
+\end{itemize}
+\item Or as an adjacency matrix
+\begin{itemize}
+\item in the example:
+\begin{align*}
+\begin{bmatrix} 
+0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 1 & 0 \\
+1 & 1 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 & 1 \\
+0 & 0 & 1 & 1 & 0
+\end{bmatrix}
+\end{align*}
+\item requires string of length $\Theta(|V|^2)$
+\end{itemize}
+\end{itemize}
+
+\section{Connected Graphs}
+\bookref{ER}{28}{28.1.4}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{CONNECTED} =& \{G = (V,E) : G \; \text{is an undirected graph and} \; G \; \text{is connected}\}
+\end{align*}\index{Problems in \P!CONNECTED}
+%
+Is CONNECTED in \P?
+
+% \begin{center}
+% \begin{dot2tex}[mathmode,circo]
+% \input{fig/graph2.dot}
+% \end{dot2tex}
+% \end{center}
+
+\begin{codebox}
+\Procname{$\proc{connected}(G = (V,E))$}
+\li Set all vertices to be unmarked
+\li Select a vertex $v$
+\li $L \gets \{v\}$
+\li $n_{\text{marked}} \gets 1$
+\li \While $L \neq \emptyset$ \Do
+  \li $v \gets \proc{pop}(L)$
+  \li \For $(v,u) \in E$ \Do
+    \li \If $u$ not marked \Do
+      \li Mark $u$
+      \li $L \gets L \cup \{u\}$
+      \li $n_{\text{marked}} \gets n_{\text{marked}} + 1$
+    \End
+  \End
+\End
+\li \If $n_{\text{marked}} = |V|$
+\li \Then \Return \const{True}
+\End
+\li \Return \const{False}
+\end{codebox}
+
+Analysis of $\proc{connected}(G)$
+
+\begin{itemize}
+\item Line 1 takes $O(|V|)$
+\item Lines 2--4 each take constant time
+\item The condition in line 5 is checked at most $|V|$ times
+\begin{itemize}
+\item Line 6 takes constant time
+\item Condition in line 7 is executed at most $|E|$ times %, each time requiring at most $O(|V|)$ time
+\item Lines 8--11 each take constant time
+\end{itemize}
+\item Lines 12 and 13 takes constant time
+\end{itemize}
+
+% So, $\treq(\proc{connected}(G)) = |V| \cdot O(|E|) \cdot O(|V|) = O(|V|^2 |E|)$.
+So, $\treq(\proc{connected}(G)) = |V| \cdot O(|E|) = O(|V|\cdot|E|)$.  
+
+% Note that $|E| \leq  |V|^2$, so $\treq(\proc{connected}(G)) \in O(|V|^4)$.
+Note that $|E| \leq  |V|^2$, so $\treq(\proc{connected}(G)) \in O(|V|^3)$.
+
+\section{Eulerian Paths and Circuits}
+\bookref{ER}{28}{28.1.5}
+Seven Bridges of K\"onigsberg (modern-day Kaliningrad)---represented as a graph:
+
+\begin{center}
+% \begin{dot2tex}[mathmode,circo]
+% \input{fig/graph3.dot}
+% \end{dot2tex}
+\input{fig/graph3.tex}
+\end{center}
+
+\myul{Eulerian path} through a graph $G = (V,E)$: a path that traverses each edge in $E$ exactly once.
+
+\myul{Eulerian circuit} through a graph $G = (V,E)$: a path that starts at some vertex $s \in V$, ends back in $s$, and traverses each edge in $E$ exactly once.
+%
+\begin{align*}
+\text{EULERIAN-CIRCUIT} = \{G : G \;\text{is an undirected graph and} \; G \; \text{contains a Eulerian circuit}\}
+\end{align*}\index{Problems in \P!EULERIAN-CIRCUIT}
+%
+\myul{Why is this useful?} Bridge inspectors, road cleaners, and network analysts can minimize their effort if they traverse their systems by following a Eulerian path.
+
+Is EULERIAN-CIRCUIT in \P?
+
+\section{Euler Observes\dots{}}
+\bookref{ER}{28}{28.1.5}
+\myul{Degree of a vertex:} number of edges with it as an endpoint.
+
+A connected graph possesses a \myul{Eulerian path that is not a circuit} iff it contains exactly \myul{two vertices of odd degree}. Those two vertices will serve as the first and last vertices of the path.
+
+A connected graph possesses a \myul{Eulerian circuit} iff all its vertices \myul{have even degree}. Because each vertex has even degree, any path that enters it can also leave it without reusing an edge.
+
+So now we can state an algorithm for deciding EULERIAN-CIRCUIT:
+
+\begin{codebox}
+\Procname{$\proc{Eulerian}(G = (V,E))$}
+\li \If $\neg \proc{connected}(G)$
+\li \Then \Return \const{False}
+\End
+\li \For $v \in V$ \Do
+  \li $n_v \gets \left| \{ (u,v) \in E : u \neq v \} \right|$
+  \li \If $n_v$ is odd
+    \li \Then \Return \const{False}
+  \End
+\End
+\li \Return \const{True}
+\end{codebox}
+
+Analysis of $\proc{Eulerian}(G)$:
+
+\begin{itemize}
+% \item We have shown that connected runs in time that is polynomial in $|V|$.
+\item We have shown that connected runs in $O(|V|^3)$ time.
+\item The condition in line 3 is evaluated at most $|V|$ times.
+\begin{itemize}
+\item Line 4 requires time that is $O(|E|)$.
+\item Lines 5--6 require constant time.
+\end{itemize}
+\item Line 7 takes constant time.
+\end{itemize}
+
+%So, the total time for $\proc{Eulerian}(G)$ is $|V| \cdot O(|E|)$.
+
+%Note that $|E| \leq  |V|^2$, hence $\treq(\proc{Eulerian}(G)) \in O(|V|^3)$.
+Hence, $\treq(\proc{Eulerian}(G)) \in O(|V|^3)$.
+
+\section{Spanning Trees}
+\bookref{ER}{28}{28.1.6}
+A spanning tree $T$ of a graph $G = (V,E)$ is a graph whose edges are a subset of $E$, such that: 
+\begin{itemize}
+\item T contains no cycles, and
+\item Every vertex in $G$ is connected to every other vertex using just the edges in $T$.
+\end{itemize}
+
+Bold edges below constitute a spanning tree, dotted edge is alternative to $(2,5)$.
+
+\begin{center}
+% \begin{dot2tex}[mathmode,circo]
+% \input{graph4.dot}
+% \end{dot2tex}
+\input{fig/graph4.tex}
+\end{center}
+
+%An unconnected graph has no spanning trees.
+
+A connected graph G will have at least one spanning tree; it may have many.
+
+\section{Minimum Spanning Trees}
+\bookref{ER}{28}{28.1.6}
+A \myul{weighted graph} is a graph that has a weight associated with each edge. 
+
+An \myul{unweighted graph} is a graph that does not associate weights with its edges.  
+
+If $G$ is a weighted graph, the \myul{cost of a spanning tree} is the sum of the costs (weights) of its edges. 
+
+A tree $T$ is a \myul{minimum spanning tree} of $G$ iff
+\begin{itemize}
+\item it is a spanning tree, and
+\item there is no other spanning tree whose cost is lower than that of $T$.
+\end{itemize}
+%
+\begin{align*}
+\text{MST} = \{(G, c) : & \; G \; \text{is an undirected graph with positive cost on each edge and}\\ & \; \exists \; \text{minimum spanning tree of} \; G \; \text{with total cost} \leq c \}
+\end{align*}\index{Problems in \P!MST}
+%
+Relevance:
+\begin{itemize}
+\item Cheapest way to lay cables between points
+\item Bridge inspection
+\end{itemize}
+
+Is MST in \P?
+
+\section{Kruskal's Algorithm}
+\bookref{ER}{28}{28.1.6}
+\begin{codebox}
+\Procname{$\proc{Kruskal}(G = (V,E))$}
+\li Sort the edges in $E$ in ascending order by their cost (break ties arbitrarily)
+\li Initialize $T$ to a forest with an empty set of edges
+\li \While not all edges in $E$ have been considered \Do
+  \li $(u,v) \gets$ the next edge in $E$
+  \li \If $u$ and $v$ are not connected in $T$ 
+    \li \Then $T \gets T \cup \{ (u,v) \}$
+    \End
+\End
+\li \Return $T$
+\end{codebox}
+
+If $G$ \myul{is not connected}, then $\proc{Kruskal}(G)$ finds a \myul{minimum spanning forest}\footnote{Forest = an undirected graph, all of whose connected components are trees = a disjoint union of trees = an undirected acyclic graph.} (a minimum spanning tree for each connected component).
+
+If $G$ \myul{is connected}, then $\proc{Kruskal}(G)$ finds a \myul{minimum spanning tree}.
+
+\section{MST is in \P}
+\bookref{ER}{28}{28.1.6}
+We can use $\proc{Kruskal}(G)$ to solve $\text{MST}(G, c)$ as follows:
+\begin{itemize}
+\item Run $\proc{Kruskal}(G)$ to obtain minimum spanning tree $T$
+\item $c(T) =$ sum of weights in T
+\item If $c(T) \leq c$ accept, else reject
+\end{itemize}
+
+Analysis of $\proc{Kruskal}(G)$:
+\begin{itemize}
+\item Line 1 (sorting) takes $O(|E| \log |E|)$ with Merge Sort
+\item Line 2 takes constant time
+\item The condition in line 3 is checked $O(|E|)$ times
+\begin{itemize}
+\item Line 4 takes constant time
+\item Checking the condition in line 5 takes $O(|V|)$ time (may go through all other vertices)
+\begin{itemize}
+\item Line 6 takes constant time
+\end{itemize}
+\end{itemize}
+\item Line 7 takes constant time
+\end{itemize}
+
+So, $\treq(\proc{Kruskal}(G)) \in O(|E|\log|E| + |E|\cdot|V|) = O(|E|\cdot|V|)$.
+
+With a more efficient implementation of line 3, it is possible to show that it is also $O(|E| \log |V|)$.
+
+
+\part{The Language Class \NP}
+
+\section{The Traveling Salesperson Problem (TSP)}
+\bookref{ER}{28}{28.2.3}
+\myul{Hamiltonian path} through a graph $G$: a path that traverses each vertex in $G$ exactly once.
+
+\myul{Hamiltonian circuit} through a graph $G$: a path that starts at some vertex $s$, ends back in $s$, and traverses each other vertex in $G$ exactly once.
+
+\myul{Traveling Salesperson Problem (TSP):} given a weighted graph $G=(V, E)$, find a Hamiltonian circuit (starting and ending in some vertex $s$) with lowest cost.
+
+\bookref{ER}{27}{27.1}
+The corresponding decision problem can be stated as follows:
+%
+\begin{align*}
+\text{TSP-DECIDE} =  \{ (G, c) : & \; G \; \text{is an undirected graph with positive edge weights} \\ & \;\text{and} \; G \; \text{contains a Hamiltonian circuit whose cost} \leq c \}
+\end{align*}\index{\NP-complete Problems!TSP-DECIDE}
+%
+We can easily write a NDTM that decides TSP-DECIDE:
+
+\begin{codebox}
+\Procname{$\proc{TSP-decide}(G = (V,E), c)$}
+\li Create an empty sequence of vertices $S$
+\li $W \gets V$
+\li \While $W \neq \emptyset$ \Do
+  \li $v \gets \proc{choose}(W)$
+  \li $W \gets W \setminus \{ v \}$
+  \li Add $v$ to sequence $S$
+\End
+\li \If $S$ is a Hamiltonian circuit and sum of costs along $S \leq c$ 
+  \li \Then \Return \const{True}
+\End
+\li \Return \const{False}
+\end{codebox}
+
+The choice in line 4 is an example of \myul{non-determininstically deciding}.
+
+NDTMs branch into many copies, each following one possible transition.
+
+TMs have a \myul{single computation path}.
+
+NDTMs have \myul{multiple computation paths}.
+
+Recall: Can NDTMs solve problems that TMs cannot? \myul{No, NDTMs are only more efficient}!
+
+\section{The Language Class \NP}
+\bookref{ER}{28}{28.2}
+$L \in \NP$ iff
+\begin{itemize}
+\item there is some NDTM $M$ that decides $L$, and
+\item $\treq(M) \in O(n^k)$ for some constant $k$.
+\end{itemize}
+
+
+\section{Certificates and Verifying}
+A TM $V$ is a \myul{verifier} for a language $L$ iff
+%
+\begin{align*}
+w \in L \; \text{iff} \; \exists \, p : (\langle w, p \rangle \in L(V))
+\end{align*}
+
+We call $p$ a \myul{certificate}: this contains all the necessary information to verify that a given $w$ decides the decision problem $L$.
+
+As an example, a certificate for TSP would contain the graph $G$ and cost $c$ as well as evidence of a Hamiltonian Circuit in the form of a sequence of veritces:
+%
+\begin{align*}
+p = \langle G = (V,E), c, v_1, v_2, \dots, v_n \rangle
+\end{align*}
+
+
+\section{The Relation Between Verifying and Deciding}
+\bookref{ER}{28}{28.2.1}
+An alternative definition for the class \NP{} is the following.
+
+$L \in \NP$ iff there exists a deterministic TM $V$ such that:
+\begin{itemize}
+\item $V$ is a verifier for $L$, and 
+\item $\treq(V) \in O(n^k)$ for some constant k
+\end{itemize}
+
+\begin{theo} These two definitions are equivalent:
+\begin{itemize}
+\item[Def.~1:] $L \in \NP$ iff there exists a polynomial-time NDTM that decides it.
+\item[Def.~2:] $L \in \NP$ iff there exists a polynomial-time TM that verifies it.
+\end{itemize}
+\begin{proof}
+Let $L \in \NP$ by Def.~1.
+\begin{itemize}
+\item There exists NDTM $M$ that decides $L$ in polynomial time
+\item We construct TM $V$ that can verify $L$ in polynomial time:
+\begin{itemize}
+\item On input $\langle w, p \rangle$, $V$ simulates $M$ running on $w$, except that
+\item Every time $M$ would make a choice, $V$ follows the ``path'' given by the next symbol in $p$
+\end{itemize}
+\item $V$ accepts iff $M$ would have accepted on path $p$
+\item Thus, $V$ accepts iff $p$ is a certificate for $w$
+\item $V$ runs in polynomial time because the length of the longest path $M$ can follow is bounded by some polynomial function over the length of $w$ (that is, $M$ takes polynomial time, as per Def.~1)
+\end{itemize}
+
+Let $L \in \NP$ by Def.~2.
+\begin{itemize}
+\item There exists a TM $V$ such that $V$ is a verifier for $L$ and $\treq(V) \in O(n^k)$ for some k
+\item We construct NDTM $M$ that decides $L$ in polynomial time:
+\begin{itemize}
+\item On input $w$, $M$ non-deterministically selects a certificate $p$
+\item Any certificate $p$ need not be longer than the max steps it would take $V$ to verify it, which is polynomial by Def.~2
+\item $M$ then runs $V$ on $\langle w, p \rangle$
+\end{itemize}
+\item $M$ will follow a finite number of paths, each halting in $O(n^k)$, hence it is a polynomial decider for $L$
+\end{itemize}
+\end{proof}
+\end{theo}
+
+Summarizing, we can see the class \NP{} as follows:
+\begin{itemize}
+\item \NP{} is the class of problems that have \myul{succinct} qualifying certificates
+\begin{itemize}
+\item This certificate is an \myul{accepting path} of a NDTM, which can only be polynomial in size because it took one computation path polynomial time to write it
+\end{itemize}
+\item \NP{} is the class of problems for which a qualifying certificate can be \myul{checked efficiently}
+\begin{itemize}
+\item Because there is a verifying TM that runs in polynomial time
+\end{itemize}
+\end{itemize}
+
+\section{Proving That a Language is in \NP}
+Now we know that there are two ways to do this:
+\begin{itemize}
+\item Exhibit an NDTM to decide it, or
+\item Exhibit a TM to verify it
+\end{itemize}
+
+\section{TSP-DECIDE is in \NP{} (via decision procedure)}
+
+If $G$ has $n$ nodes, $\treq(\proc{TSP-decide}(G, c)) \in O(n)$.
+
+Hence, we can exhibit a NDTM that decides the problem in polynomial time.
+
+Hence, the decision problem $\text{TSP-DECIDE}$ belongs to the class \NP.
+
+\section{TSP-DECIDE is in \NP{} (via verification procedure)}
+
+Suppose an \myul{oracle} provides a \myul{certificate} $p$ for a given $(G, c)$
+%
+\begin{align*}
+p = \langle G = (V,E), c, v_1, v_2, \dots, v_n \rangle
+\end{align*}
+%
+How long would it take to verify whether $p$ proves that $(G, c) \in \text{TSP-DECIDE}$? Obviously, \myul{polynomial time via the following deterministic algorithm}.
+
+\begin{codebox}
+\Procname{$\proc{TSP-verify}(p)$}
+\li \If $n \neq |V|$
+  \li \Then \Return \const{False}
+\End
+\li \If $v_1 \neq v_n$
+  \li \Then \Return \const{False}
+\End
+\li \If $(v_i,v_{i+1}) \not\in E$ for some $i \in [1,n-1]$
+  \li \Then \Return \const{False}
+\End
+\li \If sum of weights along path is $> c$
+  \li \Then \Return \const{False}
+\End
+%or  or $\sum_{i=1}^{n-1} d(v_i,v_{i+1}) + d(v_n,v_1) > c$  
+\li \Return \const{True}
+\end{codebox}
+
+
+\section{Boolean Satsifiability (SAT)}
+\bookref{ER}{22}{22.4.1}
+A \myul{wff} $w$ is a well-formed-formula in Boolean logic.
+%
+\begin{align*}
+\text{SAT} = \{ w : w \;\text{is a Boolean wff and}\; w\; \text{is satisfiable} \}
+\end{align*}\index{\NP-complete Problems!SAT}
+%
+Examples:
+\begin{align*}
+  w_1 &= P \wedge Q \wedge \neg R\\
+  w_2 &= P \wedge Q \wedge R\\
+  w_3 &= P \wedge \neg P\\
+  w_4 &= P \vee \neg P\\
+  w_5 &= P \wedge (Q \wedge \neg R) \wedge \neg Q\\
+  w_6 &= (P \vee Q) \wedge (Q \vee \neg R) \wedge \neg R
+\end{align*}
+%
+A \myul{literal} is either a variable or a variable preceded by a single negation symbol.
+
+\section{SAT is in \NP{} (via decision procedure)}
+\bookref{ER}{28}{28.2.5}
+Can we write a non-deterministic procedure for deciding SAT in polynomial time?
+%
+\begin{codebox}
+\Procname{$\proc{SAT-decide}(w)$}
+\li \For each variable $v$ in $w$ \Do
+\li $\proc{choose}(\{\top,\bot\})$ and assign it to $v$% -> O(#variables)
+\End
+\li \If $\proc{eval}(w)$
+\li \Then \Return \const{True}
+\End
+\li \Return \const{False}
+\end{codebox}
+%
+Analysis of $\proc{SAT-decide}(w)$:
+\begin{itemize}
+\item Lines 1 and 2 happen \#variables times and take constant time
+\item Line 3 happens once and takes $O(\text{\#operators})$
+\end{itemize}
+Hence, SAT $\in \NP$.
+
+\section{SAT is in \NP{} (via verification procedure)}
+\bookref{ER}{28}{28.2.5}
+Can we write a deterministic procedure for verifying a complete assignment $a$ in polynomial time?
+%
+\begin{codebox}
+\Procname{$\proc{SAT-verify}(\langle w, a \rangle)$}
+\li \For each variable $v$ in $w$ \Do
+\li Assign value prescribed in $a$ to $v$% -> O(#variables)
+\End
+\li Evaluate the formula% -> O(#operators)
+\end{codebox}
+%
+Analysis of $\proc{SAT-verify}(\langle w, a \rangle)$:
+\begin{itemize}
+\item Lines 1 and 2 happen \#variables times and take constant time
+\item Line 3 happens once and takes $O(\text{\#operators})$
+\end{itemize}
+Hence, SAT $\in \NP$.
+
+\section{3-SAT}
+\bookref{ER}{28}{28.2.5}
+A \myul{clause} is either a single literal or the disjunction of two or more literals.
+
+A wff is in \myul{conjunctive normal form} (or CNF) iff it is either a single clause or the conjunction of two or more clauses.
+
+A wff is in \myul{3-conjunctive normal form} (or 3-CNF) iff it is in conjunctive normal form and each clause contains exactly three literals.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+  {\em Well-formed-formula (wff)} & {\em 3-CNF} & {\em CNF}\\
+  \midrule
+  $(P \vee \neg Q \vee R)$ & \checkmark & \checkmark \\
+  $(P \vee \neg Q \vee R) \wedge (\neg P \vee Q \vee \neg R)$ & \checkmark & \checkmark \\
+  $P$ & & \checkmark \\
+  $(P \vee \neg Q \vee R \vee S) \wedge (\neg P \vee \neg R)$ & & \checkmark \\
+  $P \Rightarrow Q$ & & \\
+  $(P \wedge \neg Q \wedge R \wedge S) \vee (\neg P \wedge \neg R)$ & & \\
+  $\neg (P \vee Q \vee R)$ & &\\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Every wff can be converted to an equivalent wff in CNF in polynomial time.
+%
+\begin{align*}
+\text{3-SAT} = \{w : w \; \text{is a Boolean wff}, w \; \text{is in 3-CNF, and} \; w \; \text{is satisfiable}\}
+\end{align*}\index{\NP-complete Problems!3-SAT}
+%
+Is 3-SAT in \NP? \myul{Yes} (same argument as for SAT).
+
+(Is 2-SAT in \NP? \myul{Yes}, but we will see that it is not ``as hard'' as other problems in NP.)
+
+\section{Other Languages in \NP}
+\bookref{ER}{28}{28.2.2}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{HAMILTONIAN-PATH} = \{ G : & \;G \;\text{is an undirected graph and}\\ &\; G \;\text{contains a Hamiltonian path}\}
+\end{align*}\index{\NP-complete Problems!HAMILTONIAN-PATH}
+%
+\begin{align*}
+\text{HAMILTONIAN-CIRCUIT} = \{ G : & \;G \;\text{is an undirected graph and}\\ &\; G \;\text{contains a Hamiltonian circuit}\}
+\end{align*}\index{\NP-complete Problems!HAMILTONIAN-CIRCUIT}
+%
+\begin{align*}
+\text{TSP-DECIDE} = \{(G, c) : & \;G \;\text{is an undirected graph with positive edge weights and}\\ &\; G \;\text{contains a Hamiltonian circuit with cost} \leq c\}
+\end{align*}
+
+\section{Cliques}
+\bookref{ER}{28}{28.2.4}
+A \myul{clique} in $G$ is a subset of $V$ where every pair of vertices in the clique is connected by some edge in $E$.
+
+A \myul{$k$-clique} is a clique that contains exactly $k$ vertices.
+
+\begin{center}
+% \begin{dot2tex}[mathmode,circo]
+% \input{fig/graph5.dot}
+% \end{dot2tex}
+\input{fig/graph5.tex}
+\end{center}
+%
+\begin{align*}
+\text{CLIQUE} = \{ (G, k) : &\; G \; \text{is an undirected graph with vertices $V$ and edges $E$,}\\ & \; k \;\text{is an integer}, 1 \leq k \leq |V|, \text{and}\\ & \; G \; \text{contains a $k$-clique}\}
+\end{align*}\index{\NP-complete Problems!CLIQUE}
+%
+Relevance:
+\begin{itemize}
+\item Social sciences (sets of people who know each other)
+\item Biology (ecological niches)
+\item Test pattern generation (a large clique in an incompatibility graph of possible faults provides a lower bound on the size of a test set)
+\end{itemize}
+
+\section{Graph Isomorphism}
+Two graphs $G_1$ and $G_2$ are \myul{isomorphic} to each other iff there exists a way to rename the vertices of $G_1$ so that the result is equal to $G_2$ (i.e., iff their drawings are identical except for the labels on the vertices).
+%
+\begin{align*}
+\text{SUBGRAPH-ISOMORPHISM} = \{ (G_1, G_2) : G_1 \;\text{is isomorphic to some subgraph of} \; G_2\}
+\end{align*}\index{\NP-complete Problems!SUBGRAPH-ISOMORPHISM}
+%
+Relevance:
+\begin{itemize}
+\item Chemistry, isomorphism among compounds.
+\item Scene understanding, isomorphism among scene descriptors.
+\end{itemize}
+
+\section{Shortest Substrings}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{SHORTEST-SUPERSTRING} = \{ (S, k) : & \;S \;\text{is a set of strings and} \; \exists \;\text{some superstring} \; T \\ & \;\text{s.t.~every} \;s \in S \;\text{is a substring of} \; T \; \text{and} \; |T| \leq k\}
+\end{align*}\index{\NP-complete Problems!SHORTEST-SUPERSTRING}
+%
+Relevant in DNA seqencing.
+
+\section{Subset Sums}
+\bookref{ER}{28}{28.2.2}
+A \myul{multiset} is a sets in which duplicates are allowed.
+%
+\begin{align*}
+\text{SUBSET-SUM} = \{ (S, k) : & \;S \; \text{is a multiset of integers and}\\ & \; \exists \; \text{some subset of} \; S \; \text{whose elements sum to} \; k\}
+\end{align*}\index{\NP-complete Problems!SUBSET-SUM}
+%
+Examples:
+\begin{itemize}
+\item $( \{1256, \underline{45}, \underline{1256}, 59, \underline{34687}, 8946, 17664\}, 35988 ) \in \text{SUBSET-SUM}$
+\item $( \{101, 789, 5783, 6666, 45789, 996\}, 29876 ) \not\in \text{SUBSET-SUM}$
+\end{itemize}
+
+Relevant in cryptography:
+\begin{itemize}
+\item Given $f : S \mapsto 2^{\mathbb{N}}$ (strings to sets of integers)
+\item Storage of password $p$: store $\sum_{i\in f(p)}i$ instead of password
+\item Verification of user-given password $p'$: check that $\sum_{i\in f(p')}i = \sum_{i\in f(p)}i$
+\item If hackers steal $\sum_{i\in f(p)}i$ they need to solve SUBSET-SUM to get $p$
+\end{itemize}
+
+\section{Set Partitioning}
+\bookref{ER}{28}{28.2.2}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{SET-PARTITION} = \{ S : &\; S \;\text{is a multiset of objects, each with an associated cost,}\\ & \; \text{and} \; S \; \text{can be divided into} \; (A, S \setminus A) \;\text{s.t.} \; \sum_{i\in A}i = \sum_{i\in S\setminus A}i \}
+\end{align*}\index{\NP-complete Problems!SET-PARTITION}
+%
+Relevance:
+\begin{itemize}
+\item Like KNAPSACK without values
+\item Load balancing (cost = time to produce something)
+\end{itemize}
+
+\section{Knapsack}
+\bookref{ER}{28}{28.2.2}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{KNAPSACK} = \{ (S, v, c) : &\; S \; \text{is a set of objects, each with an associated cost and value,}\\ & \;\text{and there is some way of choosing elements of} \;S \; \text{(duplicates}\\ & \; \text{allowed) s.t.~the total cost of the chosen objects} \leq c \; \text{and}\\ &\;\text{their total value} \geq v \}
+\end{align*}\index{\NP-complete Problems!KNAPSACK}
+%
+Relevance: thieves, backpackers, choosing anything that has cost and adds value, \dots{}
+
+\section{Bin Packing}
+\bookref{ER}{28}{28.2.2}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{BIN-PACKING} = \{ (S, c, k) : &\; S \;\text{is a set of objects each with associated size}\\ & \;\text{and $S$ can be divided so that objects fit into $k$ bins},\\ &\;\text{each of which has size $c$}\}
+\end{align*}\index{\NP-complete Problems!BIN-PACKING}
+%
+Relevance:
+\begin{itemize}
+\item Packing boxes into containers (3D)
+\item Packing tiles/windows on a screen (2D)
+\end{itemize}
+
+\section{Relation Between \P{} and \NP}
+\bookref{ER}{28}{28.3}
+Wait a moment: can't we make a
+\begin{itemize}
+\item Deterministic polynomial-time verifier, or
+\item Non-deterministic polynomial-time decider
+\end{itemize}
+
+for the sorting problem?
+
+Of course! The decision problem associated to sorting does belong in \NP. In fact,
+
+\begin{theo}
+$\P \subseteq \NP$.
+\begin{proof}
+Let $L \in \P$. Then there exists TM $M$ that decides $L$ in polynomial time. But $M$ is also a non-deterministic decider for $L$ (it just doesn't have to guess), hence $L \in \NP$ as well.
+\end{proof}
+\end{theo}
+
+Is $\P \subsetneq \NP$? Stay tuned\dots{}
+
+\section{Polynomial-Time Reductions}
+\bookref{ER}{28}{28.4}
+A \myul{mapping reduction} $R$ from $L_1$ to $L_2$ is a TM that implements some \myul{computable function} $f$ with the property that:
+%
+\begin{align*}
+\forall x (x \in L_1 \Leftrightarrow f(x) \in L_2)
+\end{align*}
+%
+Suppose there exists a TM $M$ that decides $L_2$.
+
+Then, to decide whether $x \in L_1$ we can apply $R$ to $x$ and then invoke $M$ to decide membership in $L_2$.
+
+So, $C(x) = M(R(x))$ will decide $L_1$.
+
+If $R$ is a deterministic, polynomial-time procedure, then we say that $L_1$ is \myul{deterministic, polynomial-time reducible} to $L_2$, that is:
+\begin{align*}
+L_1 \leq_{P} L_2
+\end{align*}
+
+\section{Using Reduction in Complexity Proofs}
+\bookref{ER}{28}{28.4}
+If $L_1 \leq_{P} L_2$ then:
+\begin{itemize}
+\item $L_1$ must be in \P{} if $L_2$ is
+\begin{itemize}
+\item If $L_2 \in \P$ then $\exists$ polynomial-time TM $M$ that decides it.
+\item So, $M(R(x))$ is also a polynomial-time TM and it decides $L_1$.
+\end{itemize}
+\item $L_1$ must be in \NP{} if $L_2$ is
+\begin{itemize}
+\item If $L_2 \in \NP$ then $\exists$ polynomial-time NDTM $M$ that decides it.
+\item So, $M(R(x))$ is also a polynomial-time NDTM and it decides $L_1$.
+\end{itemize}
+\end{itemize}
+
+\section{Why Use Reduction?}
+\bookref{ER}{28}{28.4}
+Given $L_1 \leq_{P} L_2$, we can use reduction to:
+\begin{itemize}
+\item Prove that $L_1 \in \P$ or $L_1 \in \NP$ because we already know that $L_2$ is.
+\item Prove that $L_1$ would be in \P{} or in \NP{} if we could somehow show that $L_2$ is
+\begin{itemize}
+\item Allows to \myul{cluster languages of similar complexity} (even if we're not yet sure what that complexity is).
+\item In other words, $L_1$ is \myul{no harder than} $L_2$ is.
+\end{itemize}
+\end{itemize}
+
+\section{The INDEPENDENT-SET Problem}
+\bookref{ER}{28}{28.4}
+Given $G=(V,E)$ an \myul{independent set of vertices} is such that no two vertices are adjacent (i.e., connected by a single edge).
+
+\begin{center}
+% \begin{dot2tex}[mathmode,circo]
+% \input{fig/graph6.dot}
+% \end{dot2tex}
+\input{fig/graph6.tex}
+\end{center}
+%
+\begin{align*}
+\text{INDEPENDENT-SET} = \{ (G, k) : &\; G \;\text{is an undirected graph and}\\ &\; G \;\text{contains an independent set of at least} \; k \; \text{vertices}\}  
+\end{align*}\index{\NP-complete Problems!INDEPENDENT-SET}
+%
+Relevance in scheduling:
+\begin{itemize}
+\item Vertices are tasks
+\item Edges are task conflicts
+\item Largest number of tasks that can be scheduled at the same time = largest independent set
+\end{itemize}
+
+\section{3-SAT and INDEPENDENT-SET}
+\bookref{ER}{28}{28.4}
+Strings in 3-SAT describe formulas that contain literals and clauses:
+%
+\begin{align*}
+s_{\text{3-SAT}} = (P \vee Q \vee \neg R) \wedge (R \vee \neg S \vee Q)
+\end{align*}
+%
+Strings in INDEPENDENT-SET describe graphs that contain vertices and edges:
+%
+\begin{align*}
+s_{\text{INDEPENDENT-SET}} = 101/1/11/11/10/10/100/100/101/11/101
+\end{align*}
+
+We will explore the reduction $\text{3-SAT} \leq_P \text{INDEPENDENT-SET}$.
+
+\section{Gadgets}
+
+A \myul{gadget} is a structure in $L_2$ (the target language, INDEPENDENT-SET) that mimics the role of a corresponding structure in $L_1$ (the source language, 3-SAT):
+\begin{align*}
+s_{\text{3-SAT}} \xrightarrow{\text{gadget}} s_{\text{INDEPENDENT-SET}}
+\end{align*}
+%
+So we need two gadgets:
+\begin{itemize}
+\item a gadget that looks like a graph but that mimics a literal, and
+\item a gadget that looks like a graph but that mimics a clause
+\end{itemize}
+
+\section{$\text{3-SAT} \leq_P \text{INDEPENDENT-SET}$}
+\bookref{ER}{28}{28.4}
+Let $w$ be a CNF wff with $k$ clauses.
+
+$R(w)$ is defined as follows:
+\begin{enumerate}
+\item Build a graph $G$
+\begin{enumerate}
+\item Create one vertex for each instance of each literal in $w$
+\item Create an edge between each pair of vertices representing literals in the same clause
+\item Create an edge between each pair of vertices for complementary literals
+\end{enumerate}
+\item Return $(G, k)$
+\end{enumerate}
+
+For example, if $w = (P \vee \neg Q \vee W) \wedge (\neg P \vee S \vee T)$, then $R(w)$ would be the following graph:
+\begin{center}
+% \begin{dot2tex}[mathmode,circo]
+% \input{fig/graph7.dot}
+% \end{dot2tex}
+\input{fig/graph7.tex}
+\end{center}
+
+\section{$R$ is Correct}
+\bookref{ER}{28}{28.4}
+We need to show that
+\begin{enumerate}
+\item $w \in \text{3-SAT} \Rightarrow R(w) \in \text{INDEPENDENT-SET}$, and
+\item $R(w) \in \text{INDEPENDENT-SET} \Rightarrow w \in \text{3-SAT}$
+\end{enumerate}
+
+Proving 1.
+\begin{itemize}
+\item There is a satisfying assignment $A$ to the symbols in $w$
+\begin{itemize}
+\item Hence, each clause has at least one literal made positive by $A$
+\end{itemize}
+\item Is $R(w) \in \text{INDEPENDENT-SET}$?\
+\item That is, is there a subset $S$ of $k$ vertices of $G$ that is an independent set?
+\item We can build $S$ as follows
+\begin{itemize}
+\item[(a)] From each clause gadget choose one literal that is made positive by $A$
+\item[(b)] Add the vertex corresponding to that literal to $S$
+\end{itemize}
+\item $S$ contains exactly $k$ vertices
+\begin{itemize}
+\item We chose one vertex for each of the $k$ clauses
+\end{itemize}
+\item $S$ is an independent set
+\begin{itemize}
+\item No two vertices come from the same clause, so there cannot be an edge between them
+\item No two vertices correspond to complimentary literals, so there cannot be an edge between them
+\end{itemize}
+\end{itemize}
+
+Proving 2.
+\begin{itemize}
+\item $R(w) = G$ contains an independent set $S$ of size $k$
+\item Is there some satisfying assignment $A$ for $w$?
+\item No two vertices in $S$ come from the same clause gadget (as otherwise they would be connected with an edge)
+\item Since $S$ contains at least $k$ vertices and $w$ contains $k$ clauses, then $S$ must contain one vertex from each clause
+\item Build $A$ as follows
+\begin{itemize}
+\item[(a)] Assign $\top$ to each literal that corresponds to a vertex in $S$ 
+\item[(b)] Assign arbitrary values to all other literals
+\end{itemize}
+\item Since each clause will contain at least one literal whose value is $\top$, the value of $w$ will be $\top$
+\end{itemize}
+
+\section{Why Do Reductions?}
+\bookref{ER}{28}{28.5.1}
+Would we ever choose to solve 3-SAT by reducing it to INDEPENDENT-SET? Perhaps, if we had an efficient solver for INDEPENDENT-SET.
+
+But that's not why we have introduced reductions.
+
+A language $L$ might have these properties:
+
+\begin{itemize}
+\item \myul{Property 1.} $L \in \NP$
+\item \myul{Property 2.} $L' \leq_{P} L \; \text{for all} \;L' \in \NP$
+\end{itemize}
+
+$L$ is \myul{\NP-hard} iff it possesses \myul{Property 2}.
+
+$L$ is \myul{\NP-complete} iff it possesses both \myul{Property 1} and \myul{Property 2}.
+
+An \NP-hard language is \myul{at least as hard} as any other language in \NP.
+
+All \NP-complete languages can be viewed as being \myul{equivalently hard}.
+
+\section{\NP-Completeness and \P}
+If \myul{any} \NP-complete language is \myul{also} in \P, then \myul{all of them are} and $\P = \NP$.
+
+
+\section{Relation Between \P{} and \NP{} (again)}
+In practice, temporal complexity is \myul{strongly curtailed} by non determinism.
+
+We \myul{strongly believe} that $\P \neq \NP$.
+
+The consequences of proving $\P = \NP$ would be huge:
+\begin{itemize}
+\item Efficient algorithms would exist for all problems in \NP
+\item Most cryptography systems would break
+\item We could automatically prove any theorem which has a proof of reasonable length
+\item Many of the complexity classes would collapse into one
+\end{itemize}
+
+\section{Recall a Problem in Class \P}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{EULERIAN-CIRCUIT} = \{G : G \;\text{is an undirected graph and} \; G \; \text{contains a Eulerian circuit}\}
+\end{align*}
+%
+We know that $\text{EULERIAN-CIRCUIT} \in \P$ and that $\text{EULERIAN-CIRCUIT} \in \NP$.
+
+But \myul{we cannot prove} that EULERIAN-CIRCUIT is \NP-hard, as there are plenty of problems $L' \in \NP$ for which we don't have a reduction $L' \leq_{P} \text{EULERIAN-CIRCUIT}$.
+
+That's what makes this problem ``less hard'' than, say, INDEPENDENT-SET (as we will see, we can show that the latter is \NP-hard, and hence, \NP-complete).
+
+\section{Example: Sudoku}
+\bookref{ER}{28}{28.5.1}
+Rules of Sudoku: every line, column and square should contain all the digits 1--9
+%
+\begin{align*}
+\text{SUDOKU} = \{ b : &\;b \; \text{is a configuration of an}\; n \times n \; \text{grid and}\\ & \; b \; \text{has a solution under the rules of Sudoku} \}
+\end{align*}\index{\NP-complete Problems!SUDOKU}
+%
+\begin{center}
+%
+\renewcommand*\sudokuformat[1]{\sffamily#1}
+\setlength\sudokusize{5.5cm}
+\begin{sudoku-block}
+| |5| | |9|4|2|1| |.
+|4| | | | | | |8| |.
+| |3| |7| | | | | |.
+| | | | |2| | | |4|.
+|2| | |4| |6| | |8|.
+|6| | | |3| | | | |.
+| | | | | |8| |6| |.
+| |7| | | | | | |3|.
+| |6|8|9|5| | |4| |.
+\end{sudoku-block}
+%
+% \begin{tabular}{||c|c|c||c|c|c||c|c|c||}
+% \hline
+% \hline
+%  & 5 & & & 9 & 4 & 2 & 1 & \\
+% \hline
+% 4 & & & & & & & 8 & \\
+% \hline
+%  & 3 & & 7 & & & & & \\
+% \hline
+% \hline
+%  & & & & 2 & & & & 4\\
+% \hline
+% 2 & & & 4 & & 6 & & & 8\\
+% \hline
+% 6 & & & & 3 & & & & \\
+% \hline
+% \hline
+%  & & & & & 8 & & 6 & \\
+% \hline
+%  & 7 & & & & & & & 3\\
+% \hline
+%  & 6 & 8 & 9 & 5 & & & 4 & \\
+% \hline
+% \hline
+% \end{tabular}
+%
+\end{center}
+
+A deterministic, polynomial-time verifier for SUDOKU, given the certificate:
+\begin{align*}
+\langle b, (\text{string representation of full assignment of} \;b) \rangle
+\end{align*}
+%
+\begin{itemize}
+\item For each row, check that all numbers 1--9 appear exactly once
+\item For each column, check that all numbers 1--9 appear exactly once
+\item For each square, check that all numbers 1--9 appear exactly once
+\end{itemize}
+
+Clearly, requires $O(n^2)$ time.
+
+So, $\text{SUDOKU} \in \NP$.
+
+%{\em (Is SUDOKU \NP-hard? Wait and see\dots{})}
+%It can also be shown that $\text{SUDOKU} \in \NP-hard$ by reduction from 
+
+\section{Example: Chess}
+\bookref{ER}{28}{28.5.1}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{CHESS} = \{ b : &\; b \;\text{is a configuration of an} \; n \times n \;\text{chess board and there is}\\ & \;\text{a guaranteed win for the current player}\}
+\end{align*}\index{Problems in \EXP!CHESS}
+
+\vspace{-0.3cm}%
+\noindent A deterministic, polynomial-time verifier for CHESS?
+
+Any certificate would have to be a \myul{policy} prescribing how the current player should move given the possible moves of the other player.
+
+We could think of verifying this with a non-deterministic procedure in polynomial time\dots{} but it's hard to imagine a \myul{polynomial-time, deterministic} procedure!
+
+CHESS is therefore \myul{not known to be in \NP}.
+
+\section{Showing that $L$ is \NP-Complete}
+\bookref{ER}{28}{28.6.2}
+We would need to show that \myul{all} languages in \NP{} can be reduced in polynomial time to $L$---clearly infeasible.
+
+But suppose we had one language $L'$ that we know is \NP-complete.
+
+Then, we could show that any language $L$ is \NP-complete by finding a polynomial-time mapping reduction $R$ from $L'$ to $L$.
+
+In other words, $L$ is \NP-complete iff
+
+\begin{itemize}
+\item \myul{Property 1.} $L \in \NP$, and
+\item \myul{Property 2.} $\exists L' \;\text{such that}\; L' \leq_{P} L \;\text{and}\; L' \;\text{is \NP-complete}$
+\end{itemize}
+
+\section{Finding an $L'$ That is \NP-Complete}
+\bookref{ER}{28}{28.5.2}
+The key property that every \NP{} language has is that it can be decided by a polynomial-time NDTM.
+
+So we need a language in which we can describe computations of NDTMs.
+
+This language is
+%
+\begin{align*}
+\text{SAT} = \{ w : w \;\text{is a Boolean wff and}\; w\; \text{is satisfiable} \}
+\end{align*}
+%
+\begin{theo}[Cook-Levin Theorem]
+SAT is \NP-complete.
+\begin{proof}
+We've done half of it already (albeit the easy half):
+\begin{itemize}
+\item $\text{SAT} \in \NP$ because we have shown a non-deterministic, polynomial-time procedure to decide it (as well as a deterministic, polynomial-time procedure to verify certificates)
+\item Prove that SAT is \NP-hard (actual construction of a NDTM that decides SAT)
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\section{\NP-Complete Languages}
+\bookref{ER}{28}{28.6}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{SUBSET-SUM} = \{ (S, k) : & \;S \; \text{is a multiset of integers and}\\ & \; \exists \; \text{some subset of} \; S \; \text{whose elements sum to} \; k\}\\ & \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{SET-PARTITION} = \{ S : &\; S \;\text{is a multiset of objects, each with an associated cost,}\\ & \; \text{and} \; S \; \text{can be divided into} \; (A, S \setminus A) \;\text{s.t.} \; \sum_{i\in A}i = \sum_{i\in S\setminus A}i \}\\ & \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{KNAPSACK} = \{ (S, v, c) : &\; S \; \text{is a set of objects, each with an associated cost and value,}\\ & \;\text{and there is some way of choosing elements of} \;S \; \text{(duplicates}\\ & \; \text{allowed) s.t.~the total cost of the chosen objects} \leq c \; \text{and}\\ &\;\text{their total value} \geq v \} \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{HAMILTONIAN-PATH} = \{ G : & \;G \;\text{is an undirected graph and}\\ &\; G \;\text{contains a Hamiltonian path}\} \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{HAMILTONIAN-CIRCUIT} = \{ G : & \;G \;\text{is an undirected graph and}\\ &\; G \;\text{contains a Hamiltonian circuit}\} \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{CLIQUE} = \{ (G, k) : &\; G \; \text{is an undirected graph with vertices V and edges E,}\\ & \; k \;\text{is an integer}, 1 \leq k \leq |V|, \text{and}\\ & \; G \; \text{contains a $k$-clique}\} \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{3-SAT} = \{w : w \;\text{is a Boolean wff, $w$ is in 3-CNF, and $w$ is satisfiable}\} \;\text{is \NP-complete}
+\end{align*}
+% %
+% \begin{align*}
+% \text{$k$-SAT} = \{w : w \;\text{is a Boolean wff, $w$ is in $k$-CNF, $k \geq 3$, and $w$ is satisfiable}\} \;\text{is \NP-complete}
+% \end{align*}
+
+\section{INDEPENDENT-SET is \NP-Complete}
+\bookref{ER}{28}{28.6.4}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{INDEPENDENT-SET} = \{ (G, k) : &\; G \;\text{is an undirected graph and}\\ &\; G \;\text{contains an independent set of at least} \; k \; \text{vertices}\}\\ & \;\text{is \NP-complete}
+\end{align*}
+%
+Let's prove this one.
+
+\begin{theo}
+INDEPENDENT-SET is \NP-complete.
+\begin{proof}
+Need to prove that the two properties hold
+\begin{itemize}
+\item \myul{Property 2.} $\text{3-SAT} \leq_P \text{INDEPENDENT-SET}$
+\begin{itemize}
+\item We have shown a mapping reduction $R$ based on gadgets which runs in polynomial time and is correct.
+\end{itemize}
+\item \myul{Property 1.} $\text{INDEPENDENT-SET} \in \NP$
+\begin{itemize}
+\item A certificate $\langle G, k, S \rangle$ can be verified in polynomial time as follows
+\begin{codebox}
+\Procname{$\proc{INDEPENDENT-SET-verify}(\langle G, k, S \rangle)$}
+\li \If $|S| < k \vee |S| > |V|$ 
+\li \Then \Return \const{False}
+\End
+\li \For $v \in S$
+  \li \Do \For $(u,v) \in E$ 
+    \li \Do \If $u \in S$
+      \li \Then \Return \const{False}
+    \End
+  \End
+\End
+\li \Return \const{True}
+\end{codebox}
+\item Clearly, $\treq(\proc{INDEPENDENT-SET-verify}) \in O(|S|\cdot|E|\cdot|S|)$
+\item $|S|$ and $|E|$ are polynomial in size of $G$ and $k$, hence \proc{INDEPENDENT-SET-verify} runs in polynomial time
+\end{itemize}
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\section{TSP-DECIDE is \NP-Complete}
+\bookref{ER}{28}{28.6.6}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{TSP-DECIDE} = \{(G, c) : & \;G \;\text{is an undirected graph with positive edge weights and}\\ &\; G \;\text{contains a Hamiltonian circuit with cost} \leq c\}\\ & \;\text{is \NP-complete}
+\end{align*}
+%
+Let's prove this one too.
+
+\begin{theo}
+TSP-DECIDE is \NP-complete.
+\begin{proof}
+Need to prove that the two properties hold
+\begin{itemize}
+\item \myul{Property 1.} $\text{TSP-DECIDE} \in \NP$
+\begin{itemize}
+\item We have shown the polynomial-time, non-deterministic decider \proc{TSP-decide}
+\end{itemize}
+\item \myul{Property 2.} $\text{HAMILTONIAN-CIRCUIT} \leq_P \text{TSP-DECIDE}$
+\begin{itemize}
+\item Let $G = (V, E)$ be an unweighted, undirected graph
+\item If $G \in \text{HAMILTONIAN-CIRCUIT}$, it must contain exactly $|V|$ edges
+\item So the mapping reduction $R$ operates as follows:
+\begin{itemize}
+\item From $G$ construct $G'$, identical to $G$ except that each edge has cost $1$
+\item Return $(G', |V|)$
+\end{itemize}
+\item $R$ runs in polynomial time
+\item $R$ is correct since $G$ has a Hamiltonian circuit iff $G'$ has one with cost $|V|$
+\end{itemize}
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\section{\NP-Complete Languages (continued)}
+\bookref{ER}{28}{28.6.1}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{SUBGRAPH-ISOMORPHISM} = \{ (G_1, G_2) :& \; G_1 \;\text{is isomorphic to some subgraph of} \; G_2\}\\ & \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{BIN-PACKING} = \{ (S, c, k) : &\; S \;\text{is a set of objects each with associated size}\\ & \;\text{and set can be divided so that objects fit into} \;k \; \text{bins},\\ &\;\text{each of which has size} \; c\} \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{SHORTEST-SUPERSTRING} = \{ (S, k) : & \;S \;\text{is a set of strings and} \; \exists \;\text{some superstring} \; T \\ & \;\text{s.t.~every} \;s \in S \;\text{is a substring of} \; T \; \text{and} \; |T| \leq k\}\\ & \;\text{is \NP-complete}
+\end{align*}
+
+\section{Relation Between \P, \NP, \NP-Complete and \NP-Hard}
+\bookref{ER}{28}{28.7}
+\begin{center}
+\scalebox{0.5}{\input{fig/classes.pdf_t}}
+\end{center}
+
+If $\P = \NP$, then there is no ``gap''.
+
+What happens if $\P \neq \NP$?
+
+\section{Ladner's Theorem}
+\bookref{ER}{28}{28.7.1}
+\begin{lemma}
+Let $B$ be any decidable language that is not in \P. There exists a language $D \in \P$ such that $A = D \cap B \neq \emptyset$, and the following holds:
+%
+\begin{itemize}
+\item $A \not\in \P$ (what remains from the intersection, $A$, is intractable)
+\item $A \leq_P B$ ($B$ is ``at least as hard'' as $A$)
+\item $B \not\leq_P A$ ($B$ is ``harder'' than $A$)
+\end{itemize}
+\begin{proof}
+Omitted, see~\citep{rich2008automata} or~\citep{Ladner:1975:SPT:321864.321877}.
+\end{proof}
+\end{lemma}
+
+So, we have a way of making a language $A$ that is not as hard as a given intractable language $B$, but is still not tractable.
+
+\begin{theo}
+If $\P \neq \NP$, then there is something in the ``gap'', that is,
+\begin{align*}
+\NP \setminus (\P \cup \NP\text{-complete}) \neq \emptyset
+\end{align*}
+\begin{proof}
+Relies on previous Lemma:
+\begin{itemize}
+\item Suppose that $B$ is any \NP-complete language
+\item If $\P \neq \NP$, then $B$ is not in \P
+\item There exists $D \in \P$ from which we can compute $A = D \cap B$
+\item To check membership in $A$ we must check membership in $D$ {\em and} in $B$
+\item $A$ must be in \NP, since
+\begin{itemize}
+%\item membership in $D$ can be decided in polynomial time, and
+\item membership in $B$ can be verified in polynomial time
+\end{itemize}
+\item So, using the Lemma, we have:
+\begin{itemize}
+\item $A \not\in \P$, but
+\item It is not true that $B \leq_P A$
+\end{itemize}
+\item Since $B$ is in \NP{} but is not deterministic, polynomial-time reducible to $A$, $A$ is not \NP-complete
+\item So, $A$ is an example of an \NP{} language that is neither in \P{} nor \NP-complete---thus, the ``gap'' is not empty
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\section{The Gap Between \P{} and \NP-Complete}
+Let's summarize here:
+\begin{itemize}
+\item There \myul{could be} a ``gap'' between \P{} and \NP-complete
+\begin{itemize}
+\item This gap would contain languages that \myul{are} in \NP, but \myul{not} in \P{} and \myul{not} \NP-complete
+\end{itemize}
+\item Clearly, if $\P = \NP$, then \myul{there is no gap to talk about}
+\item But if $\P \neq \NP$, then \myul{the gap is not empty}~\citep{Ladner:1975:SPT:321864.321877}
+%\item If the gap is empty, then \myul{we don't know what that means}
+\item Also, if the gap is not empty, then that proves that $\P \neq \NP$
+\end{itemize}
+
+Hence, we have that
+\begin{coro}
+$\P \neq \NP \;\text{if and only if}\; \NP \setminus (\P \cup \NP\text{-complete}) \neq \emptyset$.
+\end{coro}
+
+\section{Problems That Could Be in the Gap}
+There are many languages/problems that \myul{could be} in the gap.
+
+That is, languages $L \in \NP$ for which we cannot prove either of the following:
+\begin{itemize}
+\item $L \in \P$, or
+\item $L' \leq_P L$, where $L'$ is \NP-complete
+\end{itemize}
+
+Most problems that appear to be in the gap are not very ``natural'' though.
+
+Typical example of ``non-natural'' problem in the gap:
+%
+\begin{align*}
+\text{INTERSECTING-MONOTONE-SAT} = \{ w : & \;w \;\text{is an intersecting monotone}\\ & \; \text{CNF formula and} \;w \; \text{is satisfiable} \}
+\end{align*}\index{Problems in \NP{} but perhaps not in \P!INTERSECTING-MONOTONE-SAT}
+%
+where
+\begin{itemize}
+\item Monotone CNF: every clause contains only positive literals or only negative literals
+\item Intersecting monotone CNF: every positive clause has some variable in common with every negative clause
+\end{itemize}
+
+Another one that we cannot prove to be in \P{} nor to be \NP-complete:
+%
+\begin{align*}
+\text{SUM-ROOTS} = \{ \langle (a_1,b_1), \dots{}, (a_k,b_k) \rangle : (a_i,b_i) \in \mathbb{N}^2, \sum_{i=1}^k\sqrt{a_i} > \sum_{i=1}^k\sqrt{b_i} \}
+\end{align*}\index{Problems in \NP{} but perhaps not in \P!SUM-ROOTS}
+
+\begin{quote}
+{\em ``A major bottleneck in proving \NP-completeness for geometric problems is a mismatch between the real-number and Turing machine models of computation: one is good for geometric algorithms but bad for reductions, and the other vice versa. Specifically, \myul{it is not known on Turing machines how to quickly compare a sum of distances (square roots of integers) with an integer or other similar sums}, so even (decision versions of) easy problems such as the [Euclidian] minimum spanning tree are not known to be in \NP.''} \citep{eppstein-web}
+\end{quote}
+%[D.~Eppstein]\footnote{See ``The Geometry Junkyard'', \url{https://www.ics.uci.edu/~eppstein/junkyard/open.html}.} 
+
+% FROM: https://www.ics.uci.edu/~eppstein/junkyard/small-dist.html
+% SEE ALSO: https://www.ics.uci.edu/~eppstein/junkyard/open.html
+% SEE ALSO: http://cs.smith.edu/~jorourke/TOPP/P33.html
+% What is the minimum nonzero difference between two sums of square
+% roots of integers?  In particular, find a lower bound on $r(n,k)$, 
+% the minimum positive value of 
+% 	$$\left| \sum_{i=1}^k \sqrt{a_i} - \sum_{i=1}^k \sqrt{b_i} \right|$$
+% where $a_i$ and $b_i$ are integers no larger than $n$.
+% Examples: 
+% 	$$r(20,2) \approx .0002 = 
+% 		\sqrt{10}+\sqrt{11}-\sqrt{5}-\sqrt{18}$$
+% 	$$r(20,3) \approx .000005 = 
+% 		\sqrt{5}+\sqrt{6}+\sqrt{18}-\sqrt{4}-\sqrt{12}-\sqrt{12}$$
+% This question arose in (and stymied) an attempt to prove a particular 
+% problem NP-complete. 
+
+\section{Small Differences Matter}
+\bookref{ER}{28}{28.7.1}
+Most ``natural'' problems in \NP{} are either in \P{} or are \NP-complete.
+
+It seems that natural problems in \NP{} ``snap to'' being in \P{} or \NP-complete.
+
+One candidate ``natural'' problem that we think might be in the gap is:
+%
+\begin{align*}
+\text{GRAPH-ISOMORPHISM} = \{ (G_1, G_2) : G_1 \;\text{is isomorphic to} \; G_2\}
+\end{align*}\index{Problems in \P!GRAPH-ISOMORPHISM}
+%
+Recall that \myul{SUB}GRAPH-ISOMORPHISM is \NP-complete!
+
+
+\section{Two Similar Circuit Problems}
+\bookref{ER}{28}{28.7.2}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{EULERIAN-CIRCUIT} = \{G : & \;G \;\text{is an undirected graph and}\\ & \;G \; \text{contains a Eulerian circuit}\} \in \P
+\end{align*}
+%
+\begin{align*}
+\text{HAMILTONIAN-CIRCUIT} = \{ G : & \;G \;\text{is an undirected graph and}\\ &\; G \;\text{contains a Hamiltonian circuit}\} \;\text{is \NP-complete}
+\end{align*}
+
+\section{Two Similar SAT Problems}
+\bookref{ER}{28}{28.7.3}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{2-SAT} = \{w : w \;\text{is a Boolean wff, w is in 2-CNF, and w is satisfiable}\} \in \P
+\end{align*}\index{Problems in \P!2-SAT}
+%
+For example, $(\neg P \vee R) \wedge (S \vee \neg T)$ can be solved by Unit Propagation.
+%
+\begin{align*}
+\text{3-SAT} = \{w : w \;\text{is a Boolean wff, $w$ is in 3-CNF, and $w$ is satisfiable}\} \;\text{is \NP-complete}
+\end{align*}
+%
+For example, $(\neg P \vee R \vee T) \wedge (\neg S \vee \neg R \vee P) \wedge (S \vee \neg T \vee P)$ requires search.
+
+\section{Two Similar Path Problems}
+\bookref{ER}{28}{28.7.4}
+A \myul{simple path} through a graph is a path with no repeated edges.
+%
+\begin{align*}
+\text{SHORTEST-PATH} = \{ (G, u, v, k) : & \;G \; \text{is an undirected graph,} \;u \;\text{and} \;v \;\text{are vertices in} \; G,\\ & \; k \geq 0 \; \text{and there exists a simple path from} \; u \; \text{to} \; v \\ & \; \text{of length} \leq k \} \in \P
+\end{align*}\index{Problems in \P!SHORTEST-PATH}
+%
+\begin{align*}
+\text{LONGEST-PATH} = \{ (G, u, v, k) : & \;G \; \text{is an undirected graph,} \;u \;\text{and} \;v \;\text{are vertices in} \; G,\\ & \; k \geq 0 \; \text{and there exists simple a path from} \; u \; \text{to} \; v \\ & \; \text{of length} \geq k \} \;\text{is \NP-complete}
+\end{align*}\index{\NP-complete Problems!LONGEST-PATH}
+
+\begin{codebox}
+\Procname{$\proc{SHORTEST-PATH-decide}(G=(V,E), u, v, k)$}
+\li $M \gets \{u\}$
+\li \For $i \gets 1$ to $\min(k, |E|)$ \Do
+\li \For each $n \in M$ \Do
+\li \For each $(n,m) \in E$ \Do
+\li $M \gets M \cup \{m\}$
+\End
+\End
+\End
+\li \If $v \in M$
+\li \Then \Return \const{True}
+\End
+\li \Return \const{False}
+\end{codebox}
+
+$\proc{SHORTEST-PATH-decide}$ runs in $O(|G|^3)$ time, hence $\text{SHORTEST-PATH} \in \P$
+
+\section{Two Similar Covering Problems}
+\bookref{ER}{28}{28.7.5}
+\begin{center}
+% \begin{dot2tex}[mathmode,circo]
+% \input{fig/graph8.dot}
+% \end{dot2tex}
+\input{fig/graph8.tex}
+\end{center}
+
+An \myul{edge cover} $C$ of a graph $G = (V,E)$ is a subset of $E$ such that every $v \in V$ is an endpoint of one of the edges in $C$ (see bold arrows in figure)
+
+A \myul{vertex cover} $C$ of a graph $G = (V,E)$ is a subset of $V$ such that every $(u,v) \in E$ touches one of the vertices in $C$ (see marked vertices in figure).
+%
+\begin{align*}
+\text{EDGE-COVER} = \{ (G, k) : & \;G \;\text{is an undirected graph and there exists an edge cover of}\\ & \; G \; \text{of size} \leq k\} \in \P 
+\end{align*}\index{Problems in \P!EDGE-COVER}
+%
+\begin{align*}
+\text{VERTEX-COVER} = \{ (G, k) : & \;G \;\text{is an undirected graph and there exists a vertex cover}\\ & \; \text{of} \;G \; \text{of size} \leq k\} \;\text{is \NP-complete}
+\end{align*}\index{\NP-complete Problems!VERTEX-COVER}
+
+\section{Two Similar Linear Programming Problems}
+\bookref{ER}{28}{28.7.7}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{LINEAR-PROGRAMMING} = \{ Ax \leq B : & \; \text{there exists a \myul{rational} vector} \; \mathbf{x} \\ & \; \text{that satisfies all inequalities} \} \in \P   
+\end{align*}\index{Problems in \P!LINEAR-PROGRAMMING}
+%
+\begin{align*}
+\text{INTEGER-LINEAR-PROGRAMMING} = \{ Ax \leq B : & \; \text{there exists an \myul{integer} vector} \; \mathbf{x} \\ & \; \text{that satisfies all inequalities} \} \;\text{is \NP-complete}
+\end{align*}\index{\NP-complete Problems!INTEGER-LINEAR-PROGRAMMING}
+
+\section{Diophantine Equations}
+\bookref{ER}{28}{28.7.8}
+A \myul{Diophantine equation} is a polynomial equation in \myul{any number of variables} with \myul{integer coefficients} requiring \myul{integer solutions}.
+
+For example, if $x, y, z, w$ are unknowns and $a, b, n$ are constants:
+\begin{align}
+ax + by &= 1\label{eq:linear}\\
+x^n + y^n &= z^n\label{eq:fermat}\\
+w^3 + x^3 &= y^3 + z^3\label{eq:hardy}\\
+\frac{1}{x} + \frac{1}{y} + \frac{1}{z} &= \frac{4}{n}\label{eq:es}
+\end{align}
+
+Equation~\eqref{eq:linear} is a linear Diophantine equation.
+
+Equation~\eqref{eq:fermat} has infinitely many solutions\footnote{Proved by the Greeks~\citep{Heath:1956:TBE:1096890}, possibly known since the Babylonians~\citep{ROBSON2001167}.} for $n = 2$,
+%[Babylonians, ca.~2000 BC; Pythagoras, ca.~500 BC],
+and none for $n \geq 3$ \citep{diophantus-et-al-1670,wiles1995modular}.
+%[Fermat, 1637; Wiles 1995]
+
+Equation~\eqref{eq:hardy} has the solution $12^3 + 1^3 = 9^3 + 10^3 = 1729$ which was given by Ramanujan as an evident property of a taxicab number he had seen (1729).
+
+Equation~\eqref{eq:es}, which can be re-written as $4xyz = yzn + xzn + xyn$, was conjectured~\citep{erdos-1950} to have a positive integer solution for all $n \geq 2$. % [Erd\H{o}s and Straus, 1948]
+
+Hilbert's tenth problem~\citep{hilbert1902mathematical} asks
+%
+\begin{quote}
+{\em ``[\dots{}] to devise a process according to which it can be determined in a finite number of operations whether the [Diophantine] equation is solvable in rational integers.''}
+\end{quote}
+%
+We could re-state it as follows
+%
+\begin{align*}
+\text{TENTH} = \{ w : & \; w \; \text{is a system of Diophantine equations that has an integer solution} \}
+\end{align*}
+%
+This problem was proved by~\citet{matiyasevich1970diophantineness} to be \myul{undecidable}\footnote{That this problem was solved by showing that there cannot be any such algorithm contradicted Hilbert's philosophy of mathematics.}.
+
+Variants of TENTH, however, are decidable, and they snap nicely around the ``gap'':
+%
+\begin{align*}
+\text{TENTH}' = \{ w : & \; w \; \text{is a system of \myul{linear} Diophantine equations}\\ & \;\text{or \myul{in the form}} \; ax^k = c \; \text{that has an integer solution} \} \in \P
+\end{align*}\index{Problems in \P!TENTH'}
+%
+\begin{align*}
+\text{TENTH}'' = \{ w : & \; w \; \text{is a system of Diophantine equations \myul{in the form}} \; ax^2 + by = c\\ & \; \text{that has an integer solution} \} \;\text{is \NP-complete}
+\end{align*}\index{\NP-complete Problems!TENTH''}
+
+Example in $\text{TENTH}'$:
+%
+\begin{quote} {\em A farmer buys 100 animals for \$100.00. The animals include at least one cow, one pig, and one chicken, but no other kind.  If a cow costs \$10.00, a pig costs \$3.00, and a chicken costs \$0.50, how many of each did he buy?}
+\end{quote}
+%
+\begin{align*}
+10x_{\text{cows}} + 3x_{\text{pigs}} + \frac{1}{2}x_{\text{chickens}} = & 100\\
+x_{\text{cows}} + x_{\text{pigs}} + x_{\text{chickens}} = & 100
+\end{align*}
+%
+Easy to show that he bought 9 cows, 3 pigs, 2 chickens (write a deterministic algorithm to solve this general problem and show that it runs in polynomial time).
+
+\section{Decision Problems vs.~Search Problems}
+So far, we have focused on decision problem variants of search problems.
+
+What about the corresponding search questions?
+\begin{itemize}
+\item Given $G = (V,E)$, compute a Eulerian cycle
+\item Given $G = (V,E)$, compute a Hamiltonian cycle
+\item Given $G = (V,E)$, compute an independent set of size $k$
+\item Given a 3-CNF formula, compute a satisfying assignment
+\end{itemize}
+
+\section{Search by Solving Decision Problems}
+Can we use a procedure for deciding membership to actually find a certificate?
+
+In other words, can we exploit a decision oracle for search?
+
+We can show this for SAT very easily:
+\begin{theo}
+The SAT search problem is solvable in polynomial time given a polynomial-time verifier (oracle) $\proc{SAT-decide}$ for the SAT decision problem.
+\begin{proof}
+We can use $\proc{SAT-decide}(\phi)$ as follows to compute a satisfying assignment for a given formula $\phi$:
+\begin{codebox}
+\Procname{$\proc{SAT-search}(\phi(x_1,\dots{},x_n))$}
+\li \If $\neg \proc{SAT-decide}(\phi)$
+\li \Then \Return \const{False}
+\End
+\li \For $i \gets 1$ to $n$ \Do
+\li \If $\proc{SAT-decide}(\phi(x_1 = b_1, \dots{} , x_{i-1} = b_{i-1}, \top, x_{i+1} , \dots , x_n))$
+\li \Then $b_i \gets \top$
+\li \Else $b_i \gets \bot$
+\End
+\End
+\li \Return{$\langle b_1, \dots{}, b_n \rangle$}
+\end{codebox}
+%
+The deterministic procedure $\proc{SAT-search}$ makes at most $n$ calls to the oracle (polynomial-time procedure) $\proc{SAT-decide}$.
+\end{proof}
+\end{theo}
+
+This property of SAT is called \myul{self-reducibility}, that is, checking the satisfiability of a formula on $n$ variables reduces to checking the satisfiability of two formulas on $n-1$ variables.
+
+The same holds for other problems in \NP, for instance:
+\begin{theo}
+The CLIQUE search problem is solvable in polynomial time given a polynomial-time verifier (oracle) $\proc{CLIQUE-decide}$ for the CLIQUE decision problem.
+\begin{proof}
+For any graph $G = (V,E)$ and any $v \in V$, let $G \setminus v$ be the graph $G$ after removing from it the node $v$ and all edges adjacent to it. We are given $\proc{CLIQUE-decide}(G,k)$ which decides if $G=(V,E)$ has a clique of size $k$. We can use it to find a subset of $V$ that is a clique of size $k$ if one exists as follows:
+\begin{codebox}
+\Procname{$\proc{CLIQUE-search}(G,k)$}
+\li \If $\neg \proc{CLIQUE-decide}(G,k)$
+\li \Then \Return \const{False}
+\End
+\li \For $v \in V$ \Do
+\li \If $\proc{CLIQUE-decide}(G \setminus v, k)$
+\li \Then $G \gets G \setminus v$
+\End
+\End
+\li \Return{an arbitrary subset of $k$ nodes of $G$}
+\end{codebox}
+%
+%
+The procedure is correct because
+\begin{itemize}
+\item At the first iteration of the for loop, we know that $G$ has a clique of size $k$
+\item This remains true for every iteration
+\item Also, if $v$ is not removed, then \myul{all cliques} of size $k$ contain $v$
+\item At the last iteration, all remaining vertices in $G$ are members of all cliques of size $\geq k$
+\item As there could be larger cliques, we randomly select $k$ vertices to return
+\end{itemize}
+%
+The deterministic procedure $\proc{CLIQUE-search}$ makes at most $|V|$ calls to the oracle (polynomial-time procedure) $\proc{CLIQUE-decide}$.
+\end{proof}
+\end{theo}
+
+Does this work with all problems in \NP? Suppose $L \in \NP$ and we have polynomial-time verifier $V$ for it:
+\begin{itemize}
+\item Since $L \in \NP$, then $L \leq_P \text{SAT}$
+\item But $V$ only works for $L$, it is not an oracle for SAT
+\item So we can't run the SAT self-reducibility algorithm to find $x \in L$
+\end{itemize}
+
+\section{Decision vs.~Search for \NP-complete Problems}
+But if $L$ is \NP-complete, then that's another story, because of the following result:
+\begin{theo}
+Let $L\proc{-decide}$ be a polynomial-time verifier (oracle) for a language $L$. Then there exist polynomial-time computable functions $f$ and $g$ such that
+\begin{itemize}
+\item $x \in L \; \text{iff} \; f(x) \in \text{SAT}$
+\item If $A$ is a satisfying assignment to $f(x)$, then $L\proc{-decide}$ will accept certificate $\langle x, g(x,A) \rangle$
+\end{itemize}
+\begin{proof}
+Based on how the reduction of the Cook-Levin Theorem works.
+\end{proof}
+\end{theo}
+
+This tells us that we can indeed use verification to solve search problems, as long as they are \NP-complete:
+
+\begin{theo}
+Given the decision problem associated to an \NP-complete language $L$, the corresponding search problem is solvable in polynomial time given a polynomial-time verifier (oracle) $L\proc{-decide}$ for the decision problem.
+\begin{proof}
+We are given $x$ and an oracle $L\proc{-decide}$ for $L$. We want to find a certificate $\langle x, w \rangle$ if one exists.
+\begin{itemize}
+\item We would like to ask the oracle questions, but what should we ask? We don't know the structure of the problem\dots{}
+\item But we do know (theorem above) that there is a function $f$ that transforms $x$ into a formula $f(x)$ and that $x \in L \;\text{iff}\; f(x) \in \text{SAT}$.
+%  and $g$ that we can use to find $A$ and then convert it back to a certificate $\langle x, g(A,x) \rangle$
+\item But how do we find an assignment $A$ for $f(x)$ without the oracle for SAT?
+\item We can exploit the fact that $\text{SAT} \leq_P L$ (since $L$ is \NP-complete), hence there is a reduction $R_L$ that reduces SAT to $L$
+\item We can build an oracle for SAT by using this reduction and $L\proc{-decide}$:
+\end{itemize}
+\begin{codebox}
+\Procname{$\proc{SAT-decide}(\phi)$}
+\li $\alpha \gets R_L(\phi)$
+\li \Return{$L\proc{-decide}(\alpha)$}
+\end{codebox}
+\begin{itemize}
+\item So now we can use the self-reducibility property of SAT to find a satisfying assignment $A$ for $f(x)$
+\item Again thanks to the theorem, we can build a certificate $\langle x, g(x, A) \rangle$ for our original problem $x \in L$
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\part{Other Time Complexity Classes}
+
+\section{The Class \coNP}
+\bookref{ER}{28}{28.8}
+Remember we said that \P{} was closed under complement?
+
+We \myul{do not know} if the same holds for \NP{}. Let us define the following:
+
+$L \in \coNP \;\text{iff} \; \neg L \in \NP$
+
+For example, $\text{TSP-DECIDE} \in \NP$, while $\text{NOT-TSP-DECIDE} \in \coNP$
+%
+\begin{align*}
+\text{NOT-TSP-DECIDE} = \{(G, c) : & \;G \;\text{is an undirected graph with positive edge weights and}\\ &\; G \;\text{\myul{does not} contain a Hamiltonian circuit with cost} \leq c\}
+\end{align*}\index{Problems in \coNP!NOT-TSP-DECIDE}
+%
+What does the class \coNP{} actually mean?
+
+\section{\coNP{} and NDTMs}
+% \begin{itemize}
+% \item A ``no'' instance of a problem in \coNP{} possesses a short proof of its being a ``no'' instance
+% \item Only ``no'' instances have such proofs
+% \end{itemize}
+%
+How to characterize \coNP{} in terms of a NDTM?
+
+By definition, $L \in \coNP$ iff $\neg L \in \NP$. Hence there exists a NDTM $M$ such that
+\begin{itemize}
+\item If $x \not\in \neg L$, then $M(x)$ \myul{rejects} for \myul{all computation paths}
+\item If $x \in \neg L$, then $M(x)$ \myul{accepts} for \myul{some computation path}
+\end{itemize}
+
+Hence, we can construct a NDTM $M'$ which accepts (rejects) iff $M$ rejects (accepts):
+\begin{itemize}
+\item If $x \not\in \neg L$ (iff $x \in L$), then $M'(x)$ \myul{accepts} for \myul{all computation paths}
+\item If $x \in \neg L$ (iff $x \not\in L$), then $M'(x)$ \myul{rejects} for \myul{some computation path}
+\end{itemize}
+
+Overall,
+\begin{itemize}
+\item \NP{} is the class of problems for which a \myul{qualifying} certificate can be checked efficiently
+\begin{itemize}
+\item Because there is a verifying TM that runs in polynomial time
+\end{itemize}
+\item \NP{} is the class of problems that have \myul{succinct qualifying certificates}
+\begin{itemize}
+\item This certificate is an \myul{accepting path} of a NDTM, which can only be polynomial in size because it took one computation path polynomial time to write it
+\end{itemize}
+\item \coNP{} is the class of problems for which a \myul{disqualifying} certificate can be checked efficiently
+\begin{itemize}
+\item Because there is a verifying TM that runs in polynomial time
+\end{itemize}
+\item \coNP{} is the class of problems that have \myul{succinct disqualifying certificates}
+\begin{itemize}
+\item This certificate is a \myul{rejecting path} of a NDTM, which can only be polynomial in size because it took one computation path polynomial time to write it
+\end{itemize}
+\end{itemize}
+
+
+
+\section{Relating \NP{} and \coNP}
+\bookref{ER}{28}{28.8}
+The class \coNP{} helps to understand the relation between \P{} and \NP{}.
+
+\begin{theo}
+If $\NP \neq \coNP$ then $\P \neq \NP$.
+\begin{proof}
+By contradiction, assume that $\P = \NP$
+\begin{itemize}
+\item But we know that \P{} is closed under complement
+\item Hence, $\P = \NP = \coNP$, which invalidates the theorem's hypothesis
+\item Therefore, if \NP{} is not closed under complement, then \NP{} cannot be equal to \P{}
+\end{itemize}
+\end{proof}
+\end{theo}
+
+It would be ``nice'' if we could prove that \NP{} is not closed under complement, because it would prove that $\P \neq \NP$.
+
+But proving the opposite, that is, $\NP = \coNP$, does not imply that $\P = \NP$.
+
+That is, it is possible that $\NP = \coNP$ but that that class is nevertheless larger than \P{}.
+
+In fact, we can characterize what $\NP = \coNP$ would mean a bit more precisely:
+\begin{theo}
+$\NP = \coNP \;\text{iff} \,\; \exists \, L \;\text{such that}\; L$ is \NP-complete and $\neg L \in \NP$.
+\begin{proof}
+See~\citep{rich2008automata} if interested.
+\end{proof}
+\end{theo}
+
+This is somewhat intuitive: if the complement of some \NP-complete problem (a problem that ``can be used to solve'' all problems in \NP) remains in \NP{}, then \NP{} is closed under complement.
+
+\section{Relating \P, \NP{} and \coNP}
+\begin{theo}
+If $L \in \P$ then $L \in \NP$ and $L \in \coNP$.
+\begin{proof}
+We know that $L \in \NP$ because $\P \subseteq \NP$. Hence, by definition $\neg L \in \coNP$. Since \P{} is closed under complement, we know that $\neg L \in \P$, and therefore $\neg L \in \NP$. Therefore, $\neg\neg L = L \in \coNP$.
+\end{proof}
+\end{theo}
+
+That is,
+\begin{align*}
+\P & \subseteq \NP\\
+\P & \subseteq \coNP
+\end{align*}
+
+\section{\coNP-Complete Languages}
+A language $L$ might have these properties:
+%
+\begin{itemize}
+\item \myul{Property 1.} $L \in \coNP$
+\item \myul{Property 2.} $L' \leq_{P} L \; \text{for all} \;L' \in \coNP$
+\end{itemize}
+%
+$L$ is \myul{\coNP-hard} iff it possesses \myul{Property 2}.
+
+$L$ is \myul{\coNP-complete} iff it possesses both \myul{Property 1} and \myul{Property 2}.
+
+A \coNP-hard language is \myul{at least as hard} as any other language in \coNP.
+
+All \coNP-complete languages can be viewed as being \myul{equivalently hard}.
+
+However, we don't need a ``seed'' \coNP-complete language (or, finding a ``seed'' language does not require a complex proof), because:
+%
+\begin{theo}
+$L$ is \NP-complete iff $\neg L$ is \coNP-complete.
+\begin{proof}
+We prove the $\Rightarrow$ direction (the opposite is symmetric):
+\begin{itemize}
+\item We know that $L$ is \NP-complete
+\item We need to prove that \myul{any} $\neg L' \in \coNP$ can be reduced to $\neg L$
+\begin{itemize}
+%\item We can, in particular, choose $\neg L' \in \coNP$ to be \coNP-complete
+\item By definition of the class \coNP, we have that $\neg \neg L' = L' \in \NP$
+\item Since $L$ is \NP-complete, there exists a poly-time reduction $R$ from $L'$ to $L$
+\item So, $x \in L'$ iff $R(x) \in L$
+\item So, $x \in \neg L'$ iff $R(x) \in \neg L$
+\item Hence, $R$ is a reduction from $\neg L'$ to $\neg L$
+\item Hence, $\neg L$ is \coNP-complete
+\end{itemize}
+\end{itemize}
+\end{proof}
+\end{theo}
+
+Examples of \coNP-complete problems: complement of all problems we have shown to be \NP-complete!
+
+\section{VALIDITY is \coNP-Complete}
+A wff is \myul{valid} iff it is true for all assignments of values to variables.
+%
+\begin{align*}
+\text{VALIDITY} = \; \{ w : w \;\text{is a Boolean wff and} \; w \;\text{is valid} \} \; \text{is \coNP-complete}
+\end{align*}\index{Problems in \coNP!VALIDITY}
+%
+In fact,
+\begin{itemize}
+\item $w$ is valid iff $\neg w$ is unsatisfiable, that is $\neg w \in \neg\text{SAT}$
+\item The language $\neg\text{SAT}$ is \coNP-complete because SAT is \NP-complete
+\item Hence, any problem in \coNP{} can be reduced to $\neg\text{SAT}$
+\item Hence, any problem in \coNP{} can be reduced to VALIDITY
+%checking whether $w$ is valid is a \coNP-complete problem
+\end{itemize}
+
+\section{Possible Relations Between \P, \NP{} and \coNP}
+Three possibilities:
+%
+\begin{itemize}
+\item $\P = \NP = \coNP$
+\item $\NP = \coNP$ but $\P \neq \NP$
+\item $\NP \neq \coNP$ and $\P \neq \NP$ (this is the current consensus)
+\end{itemize}
+
+Problems/languages that have \myul{both short qualifying certificates} and \myul{short disqualifications} belong to both \NP{} and \coNP{}.
+
+Let $\DP = \NP \cap \coNP$ (Difference Polynomial Time).
+
+Note that $\P \subseteq \DP$, because $\P \subseteq \NP$ and $\P \subseteq \coNP$.
+
+We do not know if $\P = \DP$, that is, if there is a problem with \myul{short certificates and short disqualifiers} that is \myul{not tractable}.
+
+Example of problem in \DP{}~\citep{pratt1975every}:
+%
+\begin{align*}
+\text{PRIMES} = \{ n : n \in \mathbb{N} \;\text{and}\; n \;\text{is prime}\} \in \DP
+\end{align*}\index{Problems in \DP!PRIMES}
+% 
+It turns out that $\text{PRIMES} \in \P$, because an efficient algorithm for primality testing was discovered relatively recently~\citep{agrawal2004primes}.
+
+\begin{center}
+\scalebox{0.4}{\input{fig/classes1.pdf_t}}
+\end{center}
+
+\section{Beyond \NP: The Class \EXP}
+\bookref{ER}{28}{28.9}
+$L \in \EXP$ iff
+\begin{itemize}
+\item there is some TM $M$ that decides $L$, and
+\item $\treq(M) \in O(2^{(n^k)})$ for some positive integer $k$.
+\end{itemize}
+
+For example,
+%
+\begin{align*}
+\text{CHESS} = \{ b : &\; b \;\text{is a configuration of an} \; n \times n \;\text{chess board and there is}\\ & \;\text{a guaranteed win for the current player}\} \in \EXP
+\end{align*}
+%
+We will see later how the class \EXP{} relates to classes \P{} and \NP{}.
+
+\section{\EXP-Completeness}
+\bookref{ER}{28}{28.9}
+A language $L$ might have these properties:
+
+\begin{itemize}
+\item \myul{Property 1.} $L \in \EXP$
+\item \myul{Property 2.} $L' \leq_{P} L \; \text{for all} \;L' \in \EXP$
+\end{itemize}
+
+$L$ is \myul{\EXP-hard} iff it possesses \myul{Property 2}.
+
+$L$ is \myul{\EXP-complete} iff it possesses both \myul{Property 1} and \myul{Property 2}.
+
+An \EXP-hard language is \myul{at least as hard} as any other language in \EXP.
+
+All \EXP-complete languages can be viewed as being \myul{equivalently hard}.
+
+It turns out that CHESS is \EXP-complete \myul{if, as we scale $n$, we also add pieces}.
+
+
+\part{The Language Class \PSPACE}
+
+\section{Space Requirement}
+\bookref{ER}{29}{29.1}
+If $M$ is a \myul{TM that halts on all inputs}, then
+%
+\begin{align*}
+\sreq(M) & = f(n) =\\ &\text{max.~number of tape squares read on any input of length} \;n
+\end{align*}
+%
+If $M$ is a \myul{NDTM all of whose computational paths halt on all inputs}, then
+%
+\begin{align*}
+\sreq(M) & = f(n) =\\ &\text{max.~number of tape squares read}\\ & \text{on any path executed on any input of length} \;n
+\end{align*}
+
+\section{Example: CONNECTED}
+\bookref{ER}{29}{29.1.1}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{CONNECTED} =& \{G = (V,E) : G \; \text{is an undirected graph and} \; G \; \text{is connected}\}
+\end{align*}
+
+\begin{codebox}
+\Procname{$\proc{connected}(G = (V,E))$}
+\li Set all vertices to be unmarked
+\li Select a vertex $v$
+\li $L \gets \{v\}$
+\li $n_{\text{marked}} \gets 1$
+\li \While $L \neq \emptyset$ \Do
+  \li $v \gets \proc{pop}(L)$
+  \li \For $(v,u) \in E$ \Do
+    \li \If $u$ not marked \Do
+      \li Mark $u$
+      \li $L \gets L \cup \{u\}$
+      \li $n_{\text{marked}} \gets n_{\text{marked}} + 1$
+    \End
+  \End
+\End
+\li \If $n_{\text{marked}} = |V|$
+\li \Then \Return \const{True}
+\End
+\li \Return \const{False}
+\end{codebox}
+
+$\proc{connected}(G = (V,E))$ uses space for:
+\begin{itemize}
+\item Storing the marks on the vertices
+\item The list $L$ of marked vertices whose successors have not yet been examined
+\item The counter $n_{\text{marked}}$, which can be stored in binary in $\log(|V|)$ bits
+\end{itemize}
+
+So, $\sreq(\proc{connected}(G)) \in O(|G|)$.
+
+\section{Example: SAT}
+\bookref{ER}{29}{29.1.1}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{SAT} = \{ w : w \;\text{is a Boolean wff and}\; w\; \text{is satisfiable} \}
+\end{align*}
+
+We already have a non-deterministic procedure for deciding SAT:
+%
+\begin{codebox}
+\Procname{$\proc{SAT-decide}(w)$}
+\li \For each variable $v$ in $w$ \Do
+\li $\proc{choose}(\{\top,\bot\})$ and assign it to $v$% -> O(#variables)
+\End
+\li \If $\proc{eval}(w)$
+\li \Then \Return \const{True}
+\End
+\li \Return \const{False}
+\end{codebox}
+
+Clearly, $\sreq(\proc{SAT-decide}(w)) \in O(w)$.
+
+How about a deterministic procedure?
+%
+\begin{codebox}
+\Procname{$\proc{SAT-decide-deterministic}(w)$}
+\li \For each binary string $b_1b_2\dots{}b_{\text{\#variables}}$ \Do
+\li Assign value $b_i$ to variable $x_i$ in $w$
+\li \If $\proc{eval}(w)$
+\li \Then \Return \const{True}
+\End
+\End
+\li \Return \const{False}
+\end{codebox}
+
+Analysis of $\proc{SAT-decide-deterministic}(w)$:
+\begin{itemize}
+\item Each iteration of the for loop requires maintaining \myul{one} string of length \#variables
+\item All other lines have constant space requirement too
+\end{itemize}
+
+So, $\sreq(\proc{SAT-decide-deterministic}(w)) \in O(w)$ as well!
+
+Note: we \myul{do not need to create a truth table}, which would have size $2^{\text{\#variables}}$
+
+\section{Relating Time and Space Complexity}
+\bookref{ER}{29}{29.1.2}
+\begin{theo}
+Given a TM $M$,
+%$M = (K, \Sigma, \Gamma, \delta, s, H)$,
+and assuming that $\sreq(M) \geq n$, the following holds:
+\begin{align*}
+\sreq(M) \leq \treq(M) \in O(c^{\sreq(M)})
+\end{align*}
+\begin{proof}
+Proving that $\sreq(M) \leq \treq(M)$:
+\begin{itemize}
+\item $\sreq(M)$ is bounded by $\treq(M)$ since $M$ must use \myul{at least one time step for every tape square} it visits.
+\end{itemize}
+
+Proving that $\treq(M) \in O(c^{\sreq(M)})$:
+\begin{itemize}
+\item Since $M$ halts, the number of steps it can execute is bounded by the number of \myul{distinct configurations that it can enter}
+\begin{itemize}
+\item So $\treq(M) \leq \mathrm{MaxConfigs}(M)$
+\end{itemize}
+\item Let $K$ be $M$'s set of states and $\Gamma$ be its tape alphabet
+\begin{itemize}
+\item Note that $\Gamma$ contains (at least) input alphabet $\Sigma$ and blank symbol ``$\square$''
+\end{itemize}
+\item Then, $\mathrm{MaxConfigs}(M) = |K| \cdot |\Gamma|^{\sreq(M)} \cdot \sreq(M)$
+\item If $|\Gamma| \leq c$ where $c$ is some constant, then $\mathrm{MaxConfigs}(M) \in O(c^{\sreq(M)})$
+\item Therefore, $\treq(M) \in O(c^{\sreq(M)})$
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\section{The Language Classes \PSPACE{} and \NPSPACE}
+\bookref{ER}{29}{29.2}
+$L \in \PSPACE$ iff
+\begin{itemize}
+\item there is some \myul{TM} $M$ that decides $L$, and
+\item $\sreq(M) \in O(n^k)$ for some constant $k$.
+\end{itemize}
+
+$L \in \NPSPACE$ iff
+\begin{itemize}
+\item there is some \myul{NDTM} $M$ that decides $L$, and
+\item $\sreq(M) \in O(n^k)$ for some constant $k$.
+\end{itemize}
+
+\section{Relation Between \PSPACE{} and \NPSPACE}
+\bookref{ER}{29}{29.2}
+It turns out that $\PSPACE = \NPSPACE$.
+
+To see why, we need a result obtained by~\citet{savitch1970relationships}:
+\begin{theo}
+If $L$ can be decided by a NDTM $M$ and $\sreq(M) \geq n$, then there is a TM $M'$ that also decides $L$ and $\sreq(M') \in O(\sreq(M)^2)$.
+\begin{proof}
+Omitted, see~\citep{rich2008automata}.
+\end{proof}
+\end{theo}
+
+This allows to show that
+\begin{theo}
+$\PSPACE = \NPSPACE$.
+\begin{proof}
+We should prove that
+\begin{itemize}
+\item If $L \in \PSPACE$ then $L \in \NPSPACE$, but of course this is trivial
+\item If $L \in \NPSPACE$ then $L \in \PSPACE$
+\begin{itemize}
+\item If $L \in \NPSPACE$ then there is some NDTM $M$ that decides it and $\sreq(M) \in O(n^k)$ for some $k$
+\item Savitch tells us\footnote{Assuming $k \geq 1$; the proof actually includes the case $k < 1$, but we omit it here.} that there is a TM $M'$ that decides $L$ and $\sreq(M') \in O(\sreq(M)^2) = O(n^{2k})$
+\item Hence, $L \in \PSPACE$ as well
+\end{itemize}
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\section{Relation Between \P, \NP{}, \PSPACE{} and \EXP}
+\bookref{ER}{29}{29.2}
+\begin{theo}
+$\P \subseteq \NP \subseteq \PSPACE \subseteq \EXP$.
+\begin{proof}
+We have already shown that $\P \subseteq \NP$. To show that $\NP \subseteq \PSPACE$:
+\begin{itemize}
+\item If $L \in \NP$, then it is decided by some NDTM $M$ in polynomial time
+\item In polynomial time, $M$ \myul{cannot use more than polynomial space} since it takes a least one time step to visit a tape square
+\item This means that $L \in \NPSPACE$
+\item Since $\NPSPACE = \PSPACE$ (Savitch), then $L \in \PSPACE$
+\end{itemize}
+To show that $\PSPACE \subseteq \EXP$:
+\begin{itemize}
+\item If $L \in \PSPACE$, then it is decided by some TM $M$ in polynomial space
+\item We have shown that $\sreq(M) \leq \treq(M) \in O(c^{\sreq(M)})$
+\item Hence, $L \in \EXP$
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\section{\PSPACE-Completeness}
+\bookref{ER}{29}{29.3}
+A language $L$ might have these properties:
+
+\begin{itemize}
+\item \myul{Property 1.} $L \in \PSPACE$
+\item \myul{Property 2.} $L' \leq_{P} L \; \text{for all} \;L' \in \PSPACE$
+\end{itemize}
+
+$L$ is \myul{\PSPACE-hard} iff it possesses \myul{Property 2}.
+
+$L$ is \myul{\PSPACE-complete} iff it possesses both \myul{Property 1} and \myul{Property 2}.
+
+A \PSPACE-hard language is \myul{at least as hard} as any other language in \PSPACE.
+
+All \PSPACE-complete languages can be viewed as being \myul{equivalently hard}.
+
+\section{\PSPACE-Completeness, \P, and \NP}
+\bookref{ER}{29}{29.3}
+If \myul{any} \PSPACE-complete language is \myul{also} in \NP, then \myul{all of them are} and $\NP = \PSPACE$.
+
+If \myul{any} \PSPACE-complete language is \myul{also} in \P, then \myul{all of them are} and $\P = \NP = \PSPACE$.
+
+\begin{center}
+\scalebox{0.3}{\input{fig/classes2.pdf_t}}
+\end{center}
+
+\section{A First \PSPACE-Complete Language}
+\bookref{ER}{29}{29.3.1}
+SAT won't work because it is \NP-complete and we suspect that there are \PSPACE{} languages that are not in \NP.
+
+A \myul{quantified Boolean formula} (QBF) is a Boolean formula where each variable $x_i$ may be bound by a quantifier $Q_i \in \{ \forall, \exists\}$.
+
+If all variables are bound by a quantifier, the formula is \myul{closed} or \myul{fully quantified}.
+\begin{align*}
+w = Q_1x_1Q_2x_2 \dots{} Q_nx_n . \phi(x_1, x_2, \dots{}, x_n)
+\end{align*}
+%
+where $\phi$ is a Boolean formula.
+%
+\begin{align*}
+\text{TQBF} = \{ w : w \;\text{is a true quantified Boolean formula} \}
+\end{align*}\index{\PSPACE-complete Problems!TQBF}
+%
+For example:
+\begin{align*}
+w_1 &= \forall X \exists Y . ((X \vee Y) \wedge (\neg X \vee \neg Y)) \in \text{TQBF}\\
+w_2 &= \forall X \forall Y . ((X \vee Y) \wedge (\neg X \vee \neg Y)) \not\in \text{TQBF}
+\end{align*}
+
+Can we state a deterministic algorithm for TQBF?
+
+\begin{codebox}
+\Procname{$\proc{TQBF-decide}(w = Q_1x_1 \dots{} Q_nx_n . \phi(x_1, \dots{}, x_n))$}
+\li \If $w$ contains no quantifiers
+\li \Then \Return{$\proc{eval}(\phi)$}
+\End
+\li $A \gets \proc{TQBF-decide}(Q_2x_2 \dots{} Q_nx_n . \phi(\bot, x_2, \dots{}, x_n))$
+\li $B \gets \proc{TQBF-decide}(Q_2x_2 \dots{} Q_nx_n . \phi(\top, x_2, \dots{}, x_n))$
+\li \If $Q_1 = \exists$
+\li \Then \Return{$\proc{eval}(A \vee B)$}
+\End
+\li \Return{$\proc{eval}(A \wedge B)$}
+\end{codebox}
+
+Analysis of $\proc{TQBF-decide}(w)$:
+\begin{itemize}
+\item For each quantifier, the algorithm makes two recursive calls on a smaller sub-problem
+\item But the sub-problem is only linearly smaller, hence $\treq(\proc{TQBF-decide}(w)) \in O(2^n)$
+\item For each recursive invocation, is should store result of computing $A$ and $B$
+\item Depth of recursion is $n$, hence $\sreq(\proc{TQBF-decide}(w)) \in O(n)$
+\end{itemize}
+
+\section{TQBF is \PSPACE-Complete}
+\bookref{ER}{29}{29.3.2}
+Our ``first'' \PSPACE-complete problem is indeed TQBF.
+\begin{theo}
+TQBF is \PSPACE-complete.
+\begin{proof}
+We've done half of it already (albeit the easy half):
+\begin{itemize}
+\item $\text{TQBF} \in \PSPACE$ because we have shown a linear-space, deterministic procedure to decide it
+\end{itemize}
+What remains is to prove that TQBF is \PSPACE-hard:
+\begin{itemize}
+\item Done by constructing a polynomial-time reduction to TQBF from any $L \in \PSPACE$, similar to Cook-Levin theorem for proving that SAT is \NP-complete---see~\citep{rich2008automata} if interested
+\end{itemize}
+\end{proof}
+\end{theo}
+
+\section{The Essence of \PSPACE}
+\bookref{ER}{29}{29.3.3}
+A certificate of membership for an \NP-complete problem is one that is \myul{short (polynomial)}.
+
+A certificate of membership for a \PSPACE-complete problem is a \myul{winning strategy for a two-player game with perfect information}.
+
+For example, CHESS, where players make alternate moves.
+
+What is a winning strategy for the first player?
+
+$P_1$ has a winning strategy iff\\
+\textcolor{white}{\rule{0.5cm}{0.4pt}} $\exists$ a $1^{\text{st}}$ first move for $P_1$ such that\\
+\textcolor{white}{\rule{1.0cm}{0.4pt}} $\forall$ possible $1^{\text{st}}$ moves of $P_2$\\
+\textcolor{white}{\rule{1.5cm}{0.4pt}} $\exists$ a $2^{\text{nd}}$ move $P_1$ such that \\
+\textcolor{white}{\rule{2.0cm}{0.4pt}} $\forall$ possible $2^{\text{nd}}$ moves of $P_2$\\
+\textcolor{white}{\rule{2.5cm}{0.4pt}} \dots{}\\
+\textcolor{white}{\rule{3.0cm}{0.4pt}} $P_1$ wins at the end
+
+The problem of deciding whether $P_1$ has a winning strategy \myul{seems} to require searching the tree of all possible moves
+\begin{itemize}
+\item If the length of a game is bounded by some polynomial function of the size of the game, then the game is likely to be \PSPACE-complete
+\item If the length of the game grows exponentially with the size of the game, then the game is likely not to be solvable in polynomial space
+\begin{itemize}
+\item But it is likely to be solvable in exponential time and thus to be \EXP-complete.
+\end{itemize}
+\end{itemize}
+
+A number of complexity results have been proven~\citep{eppstein-survey-web} %\footnote{See the Eppstein's survey at \url{https://www.ics.uci.edu/~eppstein/cgt/hard.html}.}
+for games and puzzles. In essence:
+\begin{itemize}
+\item The absence of a ``general-purpose trick'' often leads a \myul{puzzle} to be \NP-hard
+\item The tree of potential interactions in a \myul{game} typically leads to \PSPACE-hardness
+\end{itemize}
+
+ 
+\section{Languages and Automata}
+\bookref{ER}{29}{29.3.3}
+\vspace{-0.3cm}%
+\begin{align*}
+\text{NeqNDFSMs} = \{ (M_1, M_2) : &\;M_1 \;\text{and}\; M_2 \;\text{are non-deterministic FSMs} \\ &\;\text{and} \; L(M_1) \leq L(M_2) \} \;\text{is \PSPACE-complete}
+\end{align*}\index{\PSPACE-complete Problems!NeqNDFSMs}
+%
+\vspace{-0.3cm}%
+\begin{align*}
+\text{NeqREGEX} = \{ (E_1, E_2) : &\;E_1 \;\text{and}\; E_2 \;\text{are regular expressions} \\ &\;\text{and} \; L(E_1) \leq L(E_2) \} \;\text{is \PSPACE-complete}
+\end{align*}\index{\PSPACE-complete Problems!NeqREGEX}
+%
+\begin{align*}
+\text{2FSMs-INTERSECT} = \{ (M_1, M_2) : &\;M_1 \;\text{and}\; M_2 \;\text{are deterministic FSMs} \\ &\;\text{and} \; L(M_1) \cap L(M_2) \neq \emptyset \} \in \P
+\end{align*}\index{\PSPACE-complete Problems!2FSMs-INTERSECT}
+%
+\begin{align*}
+\text{FSMs-INTERSECT} = \{ (M_1, M_2, \dots{}, M_n) : &\;M_i \;\text{are deterministic FSMs} \\ &\;\text{and} \; \exists \;\text{some string accepted by all of them} \}\\ & \;\text{is \PSPACE-complete}
+\end{align*}\index{\PSPACE-complete Problems!FSMs-INTERSECT}
+%
+\begin{align*}
+\text{CONTEXT-SENSITIVE-MEMBERSHIP} = \{ (G, w) : x \in L(G) \} \;\text{is \PSPACE-complete}
+\end{align*}\index{\PSPACE-complete Problems!CONTEXT-SENSITIVE-MEMBERSHIP}
+
+\part{Overview of Complexity Classes}
+
+\section{What We Know So Far}
+So far, we have shown that
+\begin{align*}
+\PSPACE = \NPSPACE\\
+\P \subseteq \NP \subseteq \PSPACE \subseteq \EXP
+\end{align*}
+%
+We \myul{think} that all of the inclusions are strict, but we can prove this in one case only\dots{}
+
+\section{Time Constructible Functions}
+\bookref{ER}{28}{28.9.1}
+Given $n \in \mathbb{N}$, its \myul{unary representation} is
+%
+\begin{align*}
+1^n = \underbrace{11\dots{}1}_{n \;\text{times}}
+\end{align*}
+%
+A function $t : \mathbb{N} \mapsto \mathbb{N}$ is \myul{time-constructible} iff
+\begin{itemize}
+\item $t(n) \in \Omega(n \log n)$, and
+\item There is a TM $M$ that maps $1^n$ to the binary representation of $t(n)$ and $\treq(M) \in O(t(n))$
+\end{itemize}
+%
+So, the question is: given $t : \mathbb{N} \mapsto \mathbb{N}, t(n) \geq n\log n$, and given an input $n$ in unary, how long does it take to compute the value $t(n)$ in binary? If the answer is $O(t(n))$, then the function is time-constructible.
+
+In essence, a function $t(n)$ is \myul{not} time-constructible if you \myul{cannot read the input $1^n$ in time that is less than $t(n)$}.
+
+So, time-constructible functions are functions that can \myul{serve as upper bounds for TM computations}.
+
+%In essence, no function which is $o(n)$ can be time-constructible, since you cannot read the input $1^n$ in time that is less than $n$.
+% \myul{there is insufficient time to read the entire input}.
+
+For example,
+\begin{itemize}
+\item $t(n) = c$ \myul{is not} time-constructible, because $c \not\in \Omega(n \log n)$
+\item $t(n) = cn$ \myul{is not} time-constructible, because $cn \not\in \Omega(n \log n)$
+% \item $t(n) = n^2$ \myul{is} time-constructible, because $M$ can do the following:
+% \begin{itemize}
+% \item Write the binary representation of $1^n$, which requires time $O(n)$ (not proved here, using full-adders)
+% \item Replace each $1$ except the left-most one with $0$, which requires time $O(n)$
+% \end{itemize}
+\item $t(n) = 2^n$ \myul{is} time-constructible, because
+\begin{itemize}
+\item $2^n \in \Omega(n \log n)$, and we can construct a TM $M$ that does the following:
+\begin{itemize}
+\item Write as many $0$'s as there are $1$'s in the unary representation of $n$, each time advancing the head by one, requiring time $O(n)$
+\item Write a $1$ on the tape in the head's current position, requiring time $O(1)$
+\item The result of $2^n$ is now represented in binary (LSB-first) on the tape
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+All polynomial functions in $\Omega(n \log n)$ are time-constructible.
+
+The functions $n \log n, n \sqrt{n},$ and $n!$ are also time-constructible.
+
+\section{Deterministic Time Hierarchy Theorem}
+\bookref{ER}{28}{28.9.1}
+\begin{theo}[Deterministic Time Hierarchy Theorem]
+For any time-constructible function $t(n)$, there exists a language $L_{t(n)}$ that is deterministically decidable in $O(t(n))$ time but that is not deterministically decidable in $o\left(\frac{t(n)}{\log t(n)}\right)$ time.
+\begin{proof}
+Omitted, see~\citep{rich2008automata} if interested.
+\end{proof}
+\end{theo}
+
+This means, for instance, that
+\begin{itemize}
+\item There are problems that are solvable in time $n^2$ but not time $n$, because $n \in o\left(\frac{n^2}{\log n^2}\right)$
+\item There are problems that are solvable in time $2^{(n^k)}$ but not time $n^k$, because
+\begin{align*}
+n^k \in o\left(\frac{2^{(n^k)}}{\log 2^{(n^k)}}\right) = o\left(\frac{2^{(n^k)}}{n^k}\right)
+\end{align*}
+\end{itemize}
+
+Note:
+\begin{itemize}
+\item We are \myul{not} saying that if $L$ is deterministically decidable in $O(2^{(n^k)})$ then it is not deterministically decidable in $O(n^k)$
+\begin{itemize}
+\item It's easy to make a very inefficient algorithm that requires exponential time to solve a simple problem!
+\end{itemize}
+\item We \myul{are} saying that \myul{there exists} a language $L$ that is deterministically decidable in exponential time but not in polynomial time
+\end{itemize}
+
+That's all we need to prove that
+\begin{coro}
+$\P \subset \EXP$.
+\end{coro}
+
+
+\section{Provably Intractable Problems}
+\bookref{ER}{28}{28.9.2}
+Since $\P \subset \EXP$, we know that there are \myul{decidable problems for which no efficient algorithm exists}.
+
+Most importantly, this is true for \myul{every} \EXP-complete problem, because
+\begin{itemize}
+\item These are problems that are at least as hard as every other problem in \EXP
+\item Every other problem in \EXP{} obviously includes some problem that is not deterministically decidable in polynomial time (which we know exists thanks to the previous theorem)
+\item This is the reason we use the notion of \myul{completeness}
+\end{itemize}
+
+So, \myul{CHESS is provably intractable}, in the sense it is impossible to come up with deterministic polynomial-time algorithm for it.
+
+\section{A Glimpse of the Wider Complexity Landscape}
+There are many other interesting complexity classes beyond the ones we have shown\footnote{For an even wider landscape, take a look at University of Waterloo's ``Complexity Zoo'' at \url{https://complexityzoo.uwaterloo.ca/Complexity_Zoo}.}  (see also summary figure in Section~\ref{sec:summary}):
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+{\em Class} & {\em Computational model} & {\em Time/Space requirement} \\
+\midrule
+\ComplexityFont{L} & TM & $\sreq(M) \in O(\log n)$ \\
+\NL & NDTM & $\sreq(M) \in O(\log n)$ \\
+\P & TM & $\treq(M) \in O(n^k)$ \\
+\NP & NDTM & $\treq(M) \in O(n^k)$ \\
+\PSPACE & TM & $\sreq(M) \in O(n^k)$ \\
+\EXP & TM & $\treq(M) \in O(2^{(n^k)})$ \\
+\NEXP & NDTM & $\treq(M) \in O(2^{(n^k)})$ \\
+\EXPSPACE & TM & $\sreq(M) \in O(2^{(n^k)})$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Examples of problems in these new classes:
+%
+\begin{align*}
+\text{MAJORITY} = \{x : x \;\text{is a binary string and $x$ has at least as many $1$'s as $0$'s} \} \in \ComplexityFont{L}
+\end{align*}\index{Problems in \ComplexityFont{L}!MAJORITY}
+%
+\begin{align*}
+\text{PATH} = \{(G, u, v) : G \;\text{is a directed graph with a path from}\; u \;\text{to}\; v \} \;\text{is \NL-complete}
+\end{align*}\index{\NL-complete Problems!PATH}
+%
+\begin{align*}
+\text{2-SAT} = \{w : w \;\text{is a Boolean wff, $w$ is in 2-CNF, and $w$ is satisfiable}\} \;\text{is \NL-complete}
+\end{align*}\index{\NL-complete Problems!2-SAT}
+%
+Overview of relations between complexity classes:
+%
+\begin{align*}
+\PSPACE = \NPSPACE\\
+\EXPSPACE = \ComplexityFont{NEXPSPACE}\\
+\ComplexityFont{L} \subseteq \NL \subseteq \P \subseteq \NP \subseteq \PSPACE \subseteq \EXP \subseteq \NEXP \subseteq \EXPSPACE\\
+\NL \subset \PSPACE \subset \EXPSPACE\\
+\P \subset \EXP
+\end{align*}
+
+We \myul{think} that all of the inclusions are strict.
+
+Note that polynomials are closed under squaring, but $O(\log n)$ is not, which is why Savitch's theorem \myul{cannot tell us} the relationship between \ComplexityFont{L} and \NL{}.
+
+Important \myul{unknown} relations:
+\begin{itemize}
+\item $\ComplexityFont{L} \stackrel{?}{=} \NL$
+\item $\P \stackrel{?}{=} \NP$
+\item $\NP \stackrel{?}{=} \PSPACE$
+\item $\PSPACE \stackrel{?}{=} \EXP$
+\item $\EXP \stackrel{?}{=} \NEXP$
+\item $\NEXP \stackrel{?}{=} \EXPSPACE$
+\end{itemize}
+
+That is,
+\begin{itemize}
+\item we \myul{don't know} how to prove that \myul{non-determinism makes a difference}
+\item we \myul{don't know} how to prove that \myul{space is more powerful than time}
+\end{itemize}
+
+Important \myul{known} relations:
+\begin{itemize}
+\item $\P \neq \EXP$ (Deterministic Time Hierarchy Theorem)
+\item $\NP \neq \NEXP$ (Non-deterministic Time Hierarchy Theorem)
+\item $\PSPACE \neq \EXPSPACE$ (Space Hierarchy Theorem)
+\end{itemize}
+
+That is, we \myul{can prove} that \myul{exponential gaps make a difference} (when measuring the same resource bound).
+
+However, the Hierarchy Theorems provide no means to relate \myul{deterministic and non-deterministic complexity}, or \myul{time and space complexity}.
+
+%Note that there are no \myul{strict inclusion} results linking deterministic and non-deterministic classes.
+
+\section{The Class \NEXP{} and Succinct Representation}
+The class \NEXP{} is interesting in that it captures the difficulty of \myul{succinct variants} of problems in \NP.
+
+A \myul{succinct variant} of a problem is one in which the input can be represented succinctly thanks to some special structure.
+
+For example, instead of providing a graph $G=(V,E)$ as input (hence, input size measured in terms of $|V|$), we input: 
+\begin{itemize}
+\item The number of vertices of the graph, represented in binary
+\item Some compact rule to determine if two nodes are connected
+\end{itemize}
+
+This is something one might actually do if their graph is huge, in which case it makes practical sense to study the complexity of the succinct problem.
+
+One such representation is the \myul{Small Circuit Representation} (SCR) of a graph, defined as follows:
+\begin{itemize}
+\item Let $G=(V,E)$ be a graph with verices $V = \{v_1, \dots v_m \}$ where $m \leq 2^n$
+\item Let the binary representation of the index of vertex $v_i$ be an $n$-bit string $i_{(2)}$
+\item $C_G$ is a SCR of $G$ if:
+\begin{itemize}
+\item $C_G$ is a combinatorial circuit\footnote{The output is a pure function of the current input only. This is in contrast to a sequential circuit, where the output depends also on the history of the input, i.e., sequential circuits have memory, while combinational ones don't.}
+\item $C_G$ has two inputs of $n$ bits each
+\item $C_G$ has $r \in O(n^k)$ gates with $k$ constant
+\item The output of $C_G$ is given by
+\begin{align*}
+C_G(i_{(2)},j_{(2)}) = 
+\begin{cases*}
+? & if $v_i \not\in V \vee v_j \not\in V$\\
+0 & if $(v_i,v_j) \not\in E$\\
+1 & if $(v_i,v_j) \in E$\\
+\end{cases*}
+\end{align*}
+\end{itemize}
+\end{itemize}
+
+Many graph properties become \myul{harder to decide} in the succinct variant of the problem compared to the natural formulation~\citep{galperin1983succinct}.
+
+Some concrete examples~\citep{yannakakis1986note}:
+%
+\begin{align*}
+\text{HAMILTONIAN-CIRCUIT} = \{ G : & \;G \;\text{is an undirected graph and $G$ contains a}\\ &\;\text{Hamiltonian circuit}\} \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{HAMILTONIAN-CIRCUIT-SUCCINCT} = \{ C_G : & \;C_G \;\text{is a SCR of an undirected graph $G$}\\ &\; \text{and $G$ contains a Hamiltonian circuit}\}\\ & \;\text{is \NEXP-complete}
+\end{align*}\index{\NEXP-complete Problems!HAMILTONIAN-CIRCUIT-SUCCINCT}
+%
+\begin{align*}
+\text{INDEPENDENT-SET} = \{ (G, k) : &\; G \;\text{is an undirected graph and}\\ &\; G \;\text{contains an independent set of at least} \; k \; \text{vertices}\}\\ & \;\text{is \NP-complete}
+\end{align*}
+%
+\begin{align*}
+\text{INDEPENDENT-SET-SUCCINCT} = \{ (C_G, k) : &\; C_G \;\text{is a SCR of an undirected graph $G$}\\ & \;\text{and $G$ contains an independent set of}\\ &\;\text{at least $k$ vertices}\} \; \text{is \NEXP-complete}
+\end{align*}\index{\NEXP-complete Problems!INDEPENDENT-SET-SUCCINCT}
+
+The class \NEXP-complete can be seen as a class of \myul{hard problems that are ``easy'' to describe}.
+
+We have not found a problem that is \NP-complete for natural inputs but \myul{not} \NEXP-complete for succinct ones (similarly for other complexity classes).
+
+\section{Complexity Classes Summary Diagram}
+\label{sec:summary}
+\begin{center}
+\scalebox{0.25}{\input{fig/classes-all.pdf_t}}
+\end{center}
+
+
+\setlength\bibitemsep{0.5\baselineskip}
+\printbibliography
+\addcontentsline{toc}{part}{Bibliography}
+
+\newpage
+\printindex
+\addcontentsline{toc}{part}{Index}
+
+%\bibliographystyle{apa}
+%\bibliography{references}
+%\addcontentsline{toc}{chapter}{\protect\numberline{}Bibliography}%
+
+\end{document}

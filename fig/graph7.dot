@@ -1,0 +1,17 @@
+graph g {
+      graph[scale=0.5]
+      p [shape=circle,label="P"]
+      nq [shape=circle,label="\neg Q"]
+      w [shape=circle,label="W"]
+      np [shape=circle,label="\neg P"]
+      s [shape=circle,label="S"]
+      t [shape=circle,label="T"]
+
+      p -- nq
+      nq -- w
+      p -- w
+      p -- np
+      np -- s
+      s -- t
+      t -- np
+}

@@ -1,0 +1,29 @@
+
+\begin{tikzpicture}[>=latex,line join=bevel,]
+%%
+\node (1) at (27.0bp,95.148bp) [draw,ellipse] {$1$};
+  \node (2) at (83.051bp,113.36bp) [draw,ellipse] {$2$};
+  \node (4) at (27.0bp,36.212bp) [draw,ellipse] {$4$};
+  \node (5) at (83.051bp,18.0bp) [draw,ellipse] {$5$};
+  \node (3) at (117.69bp,65.68bp) [draw,ellipse] {$3$};
+  \node (6) at (167.19bp,65.68bp) [draw,ellipse] {$6$};
+  \draw [very thick] (1) ..controls (53.782bp,103.85bp) and (56.177bp,104.63bp)  .. (2);
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (59.98bp,96.739bp) node {$2$};
+  \draw [] (1) ..controls (27.0bp,69.969bp) and (27.0bp,61.717bp)  .. (4);
+  \draw (22.0bp,73.328bp) node {$6$};
+  \draw [dotted] (1) ..controls (48.399bp,65.695bp) and (61.674bp,47.424bp)  .. (5);
+  \draw (50.034bp,64.062bp) node {$5$};
+  \draw [very thick] (2) ..controls (83.051bp,77.979bp) and (83.051bp,52.879bp)  .. (5);
+  \draw (78.051bp,72.99bp) node {$4$};
+  \draw [very thick] (2) ..controls (98.496bp,92.103bp) and (102.35bp,86.798bp)  .. (3);
+  \draw (93.42bp,81.954bp) node {$ 7$};
+  \draw [very thick] (4) ..controls (53.782bp,27.51bp) and (56.177bp,26.732bp)  .. (5);
+  \draw (59.98bp,34.621bp) node {$3$};
+  \draw [] (3) ..controls (102.25bp,44.423bp) and (98.394bp,39.118bp)  .. (5);
+  \draw (95.324bp,49.274bp) node {$9$};
+  \draw [very thick] (3) ..controls (144.85bp,65.68bp) and (144.94bp,65.68bp)  .. (6);
+  \draw (154.4bp,73.18bp) node {$12$};
+%
+\end{tikzpicture}

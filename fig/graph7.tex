@@ -1,0 +1,18 @@
+
+\begin{tikzpicture}[>=latex,line join=bevel,]
+%%
+\node (p) at (86.46bp,64.861bp) [draw,circle] {$P$};
+  \node (nq) at (35.355bp,35.355bp) [draw,circle] {$\neg Q$};
+  \node (w) at (35.355bp,94.366bp) [draw,circle] {$W$};
+  \node (np) at (139.16bp,35.94bp) [draw,circle] {$\neg P$};
+  \node (s) at (139.16bp,93.781bp) [draw,circle] {$S$};
+  \node (t) at (189.25bp,64.861bp) [draw,circle] {$T$};
+  \draw [] (p) ..controls (69.323bp,54.966bp) and (67.74bp,54.053bp)  .. (nq);
+  \draw [] (p) ..controls (65.213bp,77.127bp) and (58.813bp,80.822bp)  .. (w);
+  \draw [] (p) ..controls (104.45bp,54.986bp) and (106.75bp,53.724bp)  .. (np);
+  \draw [] (nq) ..controls (35.355bp,72.111bp) and (35.355bp,73.168bp)  .. (w);
+  \draw [] (np) ..controls (139.16bp,71.888bp) and (139.16bp,73.823bp)  .. (s);
+  \draw [] (s) ..controls (160.85bp,81.254bp) and (167.48bp,77.43bp)  .. (t);
+  \draw [] (t) ..controls (171.91bp,54.849bp) and (170.37bp,53.96bp)  .. (np);
+%
+\end{tikzpicture}

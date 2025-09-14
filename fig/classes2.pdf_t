@@ -1,0 +1,37 @@
+\begin{picture}(0,0)%
+\includegraphics{fig/classes2.pdf}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(15270,15268)(13691,-8186)
+\put(21331,-4561){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\P}%
+}}}}
+\put(21331,-1051){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\DP}%
+}}}}
+\put(21331,2234){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}$\PSPACE = \NPSPACE$}%
+}}}}
+\put(21331,5969){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\EXP-complete}%
+}}}}
+\put(21331,4844){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\EXP}%
+}}}}
+\put(21331,3494){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}\PSPACE-complete}%
+}}}}
+\put(18586,-196){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\coNP-complete}%
+}}}}
+\put(24166,-196){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP-complete}%
+}}}}
+\put(18496,-3796){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\coNP}%
+}}}}
+\put(24121,-3796){\makebox(0,0)[b]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}\NP}%
+}}}}
+\put(27406,-7576){\makebox(0,0)[lb]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,.56,.56}Space}%
+}}}}
+\put(27406,-6901){\makebox(0,0)[lb]{\smash{{\SetFigFont{29}{34.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}Time}%
+}}}}
+\end{picture}%
